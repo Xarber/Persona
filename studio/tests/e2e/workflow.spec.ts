@@ -7,6 +7,11 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import JSZip from 'jszip';
 import sharp from 'sharp';
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    if (window === window.top) localStorage.setItem('persona-app-opened', 'true');
+  });
+});
 async function createLocal(page: Page, name = 'Browser portfolio') {
   await page.getByRole('button', { name: 'Create a website', exact: true }).click();
   await page

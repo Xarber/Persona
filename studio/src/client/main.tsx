@@ -1,3 +1,4 @@
+import { preferences } from './preferences';
 // Copyright (c) 2026 Persona contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useEffect, useMemo, useState } from 'react';
@@ -34,7 +35,9 @@ import { Assets } from './components/Assets';
 import { CreateSite, TemplateGallery, Thumbnail } from './components/Templates';
 import { Modal, Empty, NewButton, SearchBox, ErrorBox } from './components/ui';
 import './styles.css';
-const appearance = localStorage.getItem('persona-appearance') || 'system';
+import { WebEntry } from './components/WebEntry';
+import './components/landing.css';
+const appearance = preferences.getItem('persona-appearance') || 'system';
 document.documentElement.dataset.appearance =
   appearance === 'system'
     ? matchMedia('(prefers-color-scheme: dark)').matches
@@ -43,7 +46,7 @@ document.documentElement.dataset.appearance =
     : appearance;
 export const notify = (message: string) =>
   window.dispatchEvent(new CustomEvent('persona-notify', { detail: message }));
-function App() {
+function App({ onShowLanding }: { onShowLanding: () => void }) {
   const [user, setUser] = useState<User | null>(null),
     [loaded, setLoaded] = useState(false),
     [view, setView] = useState('websites'),
@@ -62,9 +65,9 @@ function App() {
     [swUpdate, setSwUpdate] = useState<ServiceWorker | null>(null),
     [authLink, setAuthLink] = useState<{ mode: string; token: string } | null>(null);
   useEffect(() => {
-    const previous = localStorage.getItem('persona-version');
+    const previous = preferences.getItem('persona-version');
     if (previous && previous !== release.version) setWhatsNew(true);
-    localStorage.setItem('persona-version', release.version);
+    preferences.setItem('persona-version', release.version);
   }, []);
   useEffect(() => {
     if (!loaded || !user) return;
@@ -72,9 +75,9 @@ function App() {
     const check = async () => {
       if (
         checking ||
-        localStorage.getItem('persona-auto-update') === 'false' ||
+        preferences.getItem('persona-auto-update') === 'false' ||
         !navigator.onLine ||
-        Date.now() - Date.parse(localStorage.getItem('persona-last-check') || '1970-01-01') <
+        Date.now() - Date.parse(preferences.getItem('persona-last-check') || '1970-01-01') <
           6 * 3600000
       )
         return;
@@ -83,7 +86,7 @@ function App() {
         const result = await api<{ available?: boolean; tag?: string; stale?: boolean }>(
           '/updates',
         );
-        if (!result.stale) localStorage.setItem('persona-last-check', new Date().toISOString());
+        if (!result.stale) preferences.setItem('persona-last-check', new Date().toISOString());
         if (result.available && !result.stale)
           notify(
             `Persona ${result.tag} is available. Read the release notes in Settings → Updates.`,
@@ -164,6 +167,7 @@ function App() {
   useEffect(() => {
     if (!loaded) return;
     const load = () => {
+      if (document.documentElement.dataset.entryView === 'landing') return;
       const link = location.hash.match(/^#(verify|reset)\/([A-Za-z0-9_-]+)$/);
       if (link) {
         setAuthLink({ mode: link[1], token: link[2] });
@@ -273,11 +277,20 @@ function App() {
             void refresh();
           }}
           onExport={exportSite}
+          onShowLanding={onShowLanding}
         />
       ) : (
         <div className="app-shell">
           <aside className="app-sidebar">
-            <a className="brand" href="#" onClick={() => setView('websites')}>
+            <a
+              className="brand"
+              href="/"
+              aria-label="Persona home"
+              onClick={(event) => {
+                event.preventDefault();
+                onShowLanding();
+              }}
+            >
               <img src="/branding/icon.svg" alt="" />
               <span>
                 persona<span className="brand-dot">.</span>
@@ -323,9 +336,15 @@ function App() {
                 Your rules.
               </strong>
               <p>No subscriptions. No limits on your imagination.</p>
-              <button onClick={() => setView('about')}>
+              <a
+                href="/"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onShowLanding();
+                }}
+              >
                 Meet Persona <ArrowUpRight size={13} />
-              </button>
+              </a>
             </div>
             <div className="sidebar-bottom">
               <button
@@ -948,6 +967,6 @@ function AuthLink({ mode, token, onClose }: { mode: string; token: string; onClo
 }
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <WebEntry>{(onShowLanding) => <App onShowLanding={onShowLanding} />}</WebEntry>
   </React.StrictMode>,
 );

@@ -15,7 +15,10 @@
   --bg: #f8f9f5;
   --surface: #fff;
   --ink: #29342f;
-  --muted: #7e867e;
+  --muted: #596656;
+  --motion-fast: 140ms;
+  --motion-panel: 200ms;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --line: #e5e8e0;
   --green: #1d4b3e;
   --soft: #edf1e8;
@@ -145,8 +148,8 @@ small {
   white-space: nowrap;
   text-decoration: none;
   transition:
-    background 0.15s,
-    transform 0.15s;
+    background var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
 }
 .primary {
   background: var(--green);
@@ -322,7 +325,7 @@ small {
   font-size: 10px;
 }
 .nav-label {
-  color: #9ba194;
+  color: var(--muted);
   font-size: 8px;
   letter-spacing: 0.16em;
   margin: 0 13px 13px;
@@ -375,7 +378,7 @@ small {
   display: block;
   line-height: 1;
   margin-bottom: 14px;
-  color: #8aa47a;
+  color: var(--muted);
 }
 .sidebar-note strong {
   font-size: 17px;
@@ -386,7 +389,7 @@ small {
 .sidebar-note p {
   font-size: 10px;
   line-height: 1.7;
-  color: #84917c;
+  color: var(--muted);
   margin-top: 10px;
 }
 .sidebar-note button {
@@ -405,14 +408,14 @@ small {
 }
 .openrecode {
   font-size: 7px;
-  color: #a1a69b;
+  color: var(--muted);
   letter-spacing: 0.1em;
   margin: 20px 13px 0;
 }
 .openrecode b {
   font-size: 9px;
   letter-spacing: -0.1px;
-  color: #818d78;
+  color: var(--muted);
   font-weight: 550;
   margin-left: 5px;
 }
@@ -430,7 +433,7 @@ small {
 }
 .breadcrumb {
   font-size: 10px;
-  color: #90998e;
+  color: var(--muted);
   display: flex;
   gap: 13px;
   align-items: center;
@@ -447,7 +450,7 @@ small {
   align-items: center;
   gap: 7px;
   font-size: 9px;
-  color: #90998e;
+  color: var(--muted);
 }
 .header-status > .avatar {
   margin-left: 18px;
@@ -487,7 +490,7 @@ small {
 }
 .page-heading p {
   font-size: 12px;
-  color: #8a9386;
+  color: var(--muted);
   line-height: 1.6;
 }
 .page-heading .eyebrow {
@@ -531,7 +534,7 @@ small {
 }
 .local-banner p {
   font-size: 10px;
-  color: #8d9a81;
+  color: var(--muted);
   margin-top: 5px;
 }
 .local-banner button {
@@ -580,7 +583,7 @@ small {
   border-radius: 6px;
   padding: 0 10px;
   background: var(--surface);
-  color: #9ca494;
+  color: var(--muted);
   max-width: 220px;
   margin: 0;
 }
@@ -594,7 +597,7 @@ small {
   background: transparent;
 }
 .search-box input::placeholder {
-  color: #a0a899;
+  color: var(--muted);
 }
 .search-box svg {
   width: 13px;
@@ -614,7 +617,7 @@ small {
   gap: 7px;
   padding: 5px;
   border-radius: 3px;
-  color: #9aa293;
+  color: var(--muted);
 }
 .segmented .active {
   background: #e9eee1;
@@ -717,14 +720,14 @@ small {
 }
 .site-meta time {
   font-size: 9px;
-  color: #9aa28f;
+  color: var(--muted);
 }
 .site-status {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   font-size: 9px;
-  color: #929c87;
+  color: var(--muted);
 }
 .site-status > span {
   width: 4px;
@@ -747,7 +750,7 @@ small {
   display: grid;
   place-items: center;
   cursor: pointer;
-  color: #969e8c;
+  color: var(--muted);
   padding: 0 2px;
 }
 .action-menu summary::-webkit-details-marker {
@@ -800,7 +803,7 @@ small {
   border: 1px solid #dfe7d4;
   border-radius: 50%;
   background: #f1f4e9;
-  color: #8c9d7d;
+  color: var(--muted);
   margin-bottom: 5px;
 }
 .new-site-card strong {
@@ -810,7 +813,7 @@ small {
 }
 .new-site-card p {
   font-size: 10px;
-  color: #a0aa93;
+  color: var(--muted);
 }
 .website-list {
   display: grid;
@@ -890,17 +893,17 @@ small {
 }
 .template-caption span {
   font-size: 9px;
-  color: #99a08f;
+  color: var(--muted);
   margin-left: 11px;
 }
 .template-caption > svg {
-  color: #99a08f;
+  color: var(--muted);
   width: 14px;
 }
 .template-tile > p {
   font-size: 10px;
   line-height: 1.7;
-  color: #929c85;
+  color: var(--muted);
   margin-top: 6px;
 }
 .dashboard-footer {
@@ -910,7 +913,7 @@ small {
   margin-top: 40px;
   padding: 21px 0 4px;
   font-size: 9px;
-  color: #adb49e;
+  color: var(--muted);
 }
 .modal {
   border: 1px solid var(--line);
@@ -992,7 +995,7 @@ small {
   padding: 50px;
 }
 .blank-start svg {
-  color: #82946d;
+  color: var(--muted);
 }
 .blank-start h3 {
   font-size: 23px;
@@ -1031,7 +1034,7 @@ small {
   line-height: 1.7;
   border: 1px solid #e7c9be;
   background: #fcf0e9;
-  color: #9c5446;
+  color: var(--muted);
   padding: 12px;
   border-radius: 7px;
   margin: 14px 0;
@@ -1056,7 +1059,7 @@ small {
 }
 .notice svg {
   margin-top: 3px;
-  color: #819272;
+  color: var(--muted);
 }
 .notice p {
   font-size: 11px;
@@ -1142,7 +1145,7 @@ small {
 }
 .empty-symbol {
   font-size: 55px;
-  color: #8ea27d;
+  color: var(--muted);
   line-height: 1;
 }
 .empty-state h2 {
@@ -1234,7 +1237,7 @@ small {
   width: 31px;
   height: 31px;
   border-radius: 5px;
-  color: #8c9785;
+  color: var(--muted);
 }
 .editor-devices > button.active {
   background: var(--soft);
@@ -1298,7 +1301,7 @@ small {
   border-radius: 5px;
   padding: 8px;
   flex: 1;
-  color: #8a9582;
+  color: var(--muted);
 }
 .editor-left-tabs > .active {
   color: var(--ink);
@@ -1337,7 +1340,7 @@ small {
 .drag-handle {
   display: grid;
   place-items: center;
-  color: #a7b09d;
+  color: var(--muted);
   cursor: grab;
   touch-action: none;
   padding: 4px 0;
@@ -1361,7 +1364,7 @@ small {
 .layers-help {
   font-size: 9px;
   line-height: 1.8;
-  color: #a4ac9a;
+  color: var(--muted);
   padding: 22px 15px;
 }
 .editor-left-bottom {
@@ -1416,12 +1419,12 @@ small {
   height: 20px;
   border-radius: 3px;
   background: var(--soft);
-  color: #8e9e80;
+  color: var(--muted);
   font-size: 9px;
 }
 .component-buttons > button > svg {
   margin-left: auto;
-  color: #a7b39b;
+  color: var(--muted);
 }
 .component-buttons > button:hover {
   background: var(--soft);
@@ -1460,7 +1463,7 @@ small {
   padding: 0 15px;
   border-bottom: 1px solid #dde3d7;
   font-size: 9px;
-  color: #8a9781;
+  color: var(--muted);
   flex-shrink: 0;
 }
 .canvas-ruler > span {
@@ -1499,7 +1502,7 @@ small {
   justify-content: space-between;
   padding: 0 15px;
   border-top: 1px solid #dde3d7;
-  color: #99a48e;
+  color: var(--muted);
   flex-shrink: 0;
   position: relative;
   background: #e9ede6;
@@ -1549,7 +1552,7 @@ small {
   margin-left: auto;
   font-size: 8px;
   font-weight: 400;
-  color: #9fa995;
+  color: var(--muted);
 }
 .inspector-section label {
   font-size: 9px;
@@ -1585,7 +1588,7 @@ small {
 }
 .color-row code {
   font-size: 8px;
-  color: #9ca491;
+  color: var(--muted);
   background: var(--bg);
   padding: 5px;
   border-radius: 4px;
@@ -1612,7 +1615,7 @@ small {
   flex: 1;
   padding: 12px;
   font-size: 10px;
-  color: #97a08c;
+  color: var(--muted);
 }
 .inspector-tabs button.active {
   color: var(--green);
@@ -1630,7 +1633,7 @@ small {
   padding: 20px 16px;
   font-size: 10px;
   line-height: 1.8;
-  color: #9ba58f;
+  color: var(--muted);
 }
 .binding-note {
   display: flex;
@@ -1659,7 +1662,7 @@ small {
 .editor-error {
   padding: 10px 20px;
   background: #fff0e4;
-  color: #a26042;
+  color: var(--muted);
   font-size: 11px;
   display: flex;
   align-items: center;
@@ -1855,7 +1858,7 @@ small {
   place-items: center;
   border-radius: 50%;
   background: var(--soft);
-  color: #8f9e7f;
+  color: var(--muted);
 }
 .deployment-state.ready {
   background: #e5f0dc;
@@ -1863,7 +1866,7 @@ small {
 }
 .deployment-state.failed {
   background: #f6e8e0;
-  color: #b67b62;
+  color: var(--muted);
 }
 .deployment-row .tiny-badge {
   margin-left: 8px;
@@ -1921,7 +1924,7 @@ small {
   margin-bottom: 18px;
 }
 .export-card > svg {
-  color: #8d9e7d;
+  color: var(--muted);
 }
 .export-card > div {
   flex: 1;
@@ -2091,7 +2094,7 @@ small {
   padding: 35px;
   gap: 12px;
   margin: 25px 0;
-  color: #91a181;
+  color: var(--muted);
 }
 .upload-dropzone strong {
   font-size: 12px;
@@ -2099,7 +2102,7 @@ small {
 }
 .upload-dropzone span {
   font-size: 10px;
-  color: #a4af97;
+  color: var(--muted);
 }
 .upload-dropzone progress {
   width: 180px;
@@ -2124,7 +2127,7 @@ small {
   background: var(--soft);
   display: grid;
   place-items: center;
-  color: #8d9e7d;
+  color: var(--muted);
   margin-bottom: 13px;
 }
 .asset-preview img {
@@ -2191,7 +2194,7 @@ small {
   flex-direction: column;
   align-items: flex-start;
   font-size: 9px;
-  color: #9da98f;
+  color: var(--muted);
   gap: 6px;
   margin-top: 25px;
 }
@@ -2271,12 +2274,12 @@ small {
 .danger-zone h3 {
   font-size: 14px;
   font-weight: 500;
-  color: #aa6a57;
+  color: var(--muted);
 }
 .danger-zone p {
   font-size: 11px;
   line-height: 1.8;
-  color: #af927e;
+  color: var(--muted);
   margin: 12px 0 20px;
 }
 .diagnostics {
@@ -2323,7 +2326,7 @@ small {
   border-top: 1px solid var(--line);
 }
 .release-highlight > svg {
-  color: #839b6d;
+  color: var(--muted);
   margin-top: 3px;
 }
 .release-highlight h3 {
@@ -3178,4 +3181,75 @@ small {
 }
 .account-security > .secondary {
   margin-top: 15px;
+}
+
+/* Shared studio motion: document edits and keyboard commands stay immediate. */
+.sidebar-note > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 550;
+  margin-top: 14px;
+  text-decoration: none;
+}
+.modal[open],
+.toast,
+.action-menu[open] > div {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--motion-panel) var(--ease-out),
+    translate var(--motion-panel) var(--ease-out);
+}
+@starting-style {
+  .modal[open],
+  .toast,
+  .action-menu[open] > div {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-panel: 0ms;
+  }
+}
+@media (pointer: coarse) {
+  .icon-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  input:not([type='color']):not([type='checkbox']),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+.web-entry-view[hidden] {
+  display: none !important;
+}
+.web-entry-view:focus {
+  outline: none;
+}
+.web-entry-view {
+  opacity: 1;
+  transition: opacity var(--motion-panel) var(--ease-out);
+}
+@starting-style {
+  .web-entry-view {
+    opacity: 0;
+  }
+}
+.editor-home {
+  display: flex;
+  padding: 0;
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .web-entry-view {
+    transition: none;
+  }
 }

@@ -1,5 +1,7 @@
 # Self-hosting and recovery
 
+X-Center is the default hosting target. Use the [X-Center overlay and staging procedure](XCENTER.md) with an existing proxy; the standalone Compose example below is for an isolated host and must not displace healthy infrastructure. No new hosted destination is authorized.
+
 ## Docker Compose
 
 The prepared stack contains Node application, a single publishing worker, PostgreSQL 17, filesystem asset/artifact volume and Caddy 2. No Redis or proprietary service is required. There is no S3 adapter in this version. Set at least the following in `.env` before starting:

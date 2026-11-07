@@ -1,3 +1,4 @@
+import { preferences } from '../preferences';
 // Copyright (c) 2026 Persona contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useEffect, useRef, useState } from 'react';
@@ -42,15 +43,15 @@ export function SettingsPage({
     >([]),
     [update, setUpdate] = useState<Record<string, unknown> | null>(null),
     [checking, setChecking] = useState(false),
-    [auto, setAuto] = useState(localStorage.getItem('persona-auto-update') !== 'false'),
-    [lastCheck, setLastCheck] = useState(localStorage.getItem('persona-last-check') || ''),
+    [auto, setAuto] = useState(preferences.getItem('persona-auto-update') !== 'false'),
+    [lastCheck, setLastCheck] = useState(preferences.getItem('persona-last-check') || ''),
     [whatsNew, setWhatsNew] = useState(false);
   const taps = useRef(0),
     timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
-    const previous = localStorage.getItem('persona-version');
+    const previous = preferences.getItem('persona-version');
     if (previous && previous !== release.version) setWhatsNew(true);
-    localStorage.setItem('persona-version', release.version);
+    preferences.setItem('persona-version', release.version);
     if (workspace.user) {
       api<{ analytics: boolean }>('/preferences')
         .then((p) => setAnalytics(p.analytics))
@@ -70,7 +71,7 @@ export function SettingsPage({
       setUpdate(await api('/updates'));
       const stamp = new Date().toISOString();
       setLastCheck(stamp);
-      localStorage.setItem('persona-last-check', stamp);
+      preferences.setItem('persona-last-check', stamp);
       navigator.serviceWorker
         ?.getRegistration()
         .then((r) => r?.update())
@@ -174,9 +175,9 @@ export function SettingsPage({
                 </div>
                 <select
                   aria-label="Appearance"
-                  defaultValue={localStorage.getItem('persona-appearance') || 'system'}
+                  defaultValue={preferences.getItem('persona-appearance') || 'system'}
                   onChange={(e) => {
-                    localStorage.setItem('persona-appearance', e.target.value);
+                    preferences.setItem('persona-appearance', e.target.value);
                     document.documentElement.dataset.appearance =
                       e.target.value === 'system'
                         ? matchMedia('(prefers-color-scheme: dark)').matches
@@ -347,7 +348,7 @@ export function SettingsPage({
                   checked={auto}
                   onChange={(e) => {
                     setAuto(e.target.checked);
-                    localStorage.setItem('persona-auto-update', String(e.target.checked));
+                    preferences.setItem('persona-auto-update', String(e.target.checked));
                   }}
                 />
               </label>

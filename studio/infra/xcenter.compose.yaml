@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Overlay: reuse X-Center's existing HTTPS proxy; do not bind ports 80/443.
+services:
+  app:
+    ports:
+      - '127.0.0.1:${PERSONA_APP_PORT:-18130}:3100'
+      - '127.0.0.1:${PERSONA_PUBLIC_PORT:-18131}:3101'
+  proxy:
+    profiles: [standalone-proxy]

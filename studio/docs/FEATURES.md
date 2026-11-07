@@ -27,3 +27,7 @@
 | Delivery | Docker/Compose/Caddy, SQLite/PostgreSQL adapter, CI job definitions | Actual container/PostgreSQL/proxy execution and authorized production hosting |
 
 AI assistance, cross-app private-data imports, executable plugins, collaboration and automated external hosting are not required for core functionality and are not implemented. No mock control is claimed as a completed integration.
+
+## Product presence
+
+`/` presents an integrated responsive landing on first visit and the remembered studio after explicit entry. The logo returns to the landing, keeping the editor mounted. Browser back/forward and direct application links are supported. Preferences fall back to session memory when persistence is unavailable; a new browser session may show the landing again in that case. It includes a real editor capture, implemented features, web/PWA installation guidance, source/license and privacy information. It does not advertise native portfolio editing as available or activate a hosted service.

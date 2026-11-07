@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Persona contributors
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { X, ArrowUpRight, Plus, Search } from 'lucide-react';
 export function Modal({
   title,
@@ -14,12 +14,20 @@ export function Modal({
   wide?: boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const headingId = useId();
   useEffect(() => {
-    ref.current?.showModal();
+    const previous = document.activeElement;
+    const dialog = ref.current;
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
+    };
   }, []);
   return (
     <dialog
       ref={ref}
+      aria-labelledby={headingId}
       className={wide ? 'modal wide' : 'modal'}
       onCancel={(e) => {
         e.preventDefault();
@@ -30,7 +38,7 @@ export function Modal({
       }}
     >
       <div className="modal-heading">
-        <h2>{title}</h2>
+        <h2 id={headingId}>{title}</h2>
         <button className="icon-button" aria-label="Close dialog" onClick={onClose}>
           <X size={18} />
         </button>

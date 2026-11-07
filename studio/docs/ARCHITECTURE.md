@@ -1,11 +1,16 @@
 # Architecture
 
+## Repository layout
+
+The original Expo application remains at repository root. This independent web/PWA module lives under `studio/`, with its own lockfile, license and server. It does not import or replace root Expo code.
+
 ## Modules
 
 - `src/shared/schema.ts`: versioned Zod documents, style whitelist, URL policy, component registry, stable IDs and safe tree operations. Browser and server use the same contract.
 - `src/shared/templates.ts`: six document factories. Each invocation creates independent IDs and content.
 - `src/shared/history.ts`: bounded command snapshots, undo and redo.
 - `src/shared/renderer.ts`: deterministic semantic HTML, validated style output, responsive overrides, preview bridges and static site files.
+- `src/client/components/Landing.tsx`: public root landing view `/`, actual editor capture, installation/help, privacy and source links. It renders without mounting the account workspace. WebEntry keeps the app mounted and inert while showing the landing; history state and an exception-safe persistent preference manage return visits. App deep links bypass the landing. The native Expo tree never imports this browser-only shell. The service-worker navigation fallback renders the correct view offline. `scripts/landing.ts` prerenders public landing markup for indexing without user data.
 - `src/client/main.tsx`: dashboard, workspace selection, account entry, navigation and application update prompt.
 - `src/client/storage.ts`: IndexedDB, authenticated API client, optimistic site saving, recovery and portable downloads.
 - `src/client/media.ts`: local raster processing, media persistence and private asset resolution for opaque sandbox frames.

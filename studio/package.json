@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "tsx --env-file-if-exists=.env src/server/index.ts",
-    "build": "tsc --noEmit && vite build && tsx scripts/sw.ts && tsx scripts/source.ts",
+    "build": "tsc --noEmit && vite build && tsx scripts/landing.ts && tsx scripts/sw.ts && tsx scripts/source.ts",
     "start": "NODE_ENV=production tsx --env-file-if-exists=.env src/server/index.ts",
     "migrate": "tsx --env-file-if-exists=.env src/server/migrate.ts",
     "worker": "tsx --env-file-if-exists=.env src/server/worker.ts",

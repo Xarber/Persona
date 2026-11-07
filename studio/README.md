@@ -15,7 +15,7 @@ npm run migrate
 npm run dev
 ```
 
-Open [Persona](http://localhost:3100). Published websites use the separate [public delivery listener](http://localhost:3101). Continue without an account to work locally; create an account to use the self-hosted API and publishing. Sample template content is fictional and must be replaced before real publication.
+Run these commands from `studio/`. Open [Persona](http://localhost:3100) for the first-visit product landing; Open App enters the studio. Published websites use the separate [public delivery listener](http://localhost:3101). Continue without an account to work locally; create an account to use the self-hosted API and publishing. Sample template content is fictional and must be replaced before real publication.
 
 ```sh
 npm run check
@@ -57,4 +57,4 @@ The interface exports two different ZIPs: an editable Persona project and a stat
 
 Original code and branding are **AGPL-3.0-only**. See [LICENSE](LICENSE), [third-party notices](docs/THIRD_PARTY.md), [contributing](CONTRIBUTING.md) and [security policy](SECURITY.md). Network operators must provide the Corresponding Source for the version they offer, as required by AGPL section 13. Third-party assets retain their own licenses.
 
-Development repository: [Xarber/persona-studio](https://github.com/Xarber/persona-studio). The repository is private during development. No public deployment or store release has been authorized. Web/PWA is the supported platform; native iOS/Android binaries are not part of this project.
+Development repository: [Xarber/Persona](https://github.com/Xarber/Persona), selected by the user. This studio lives in `studio/` on `testing`; the public repository retains its original Expo starter and history. The previous private repository is preserved as a backup. No public deployment or store release has been authorized. Web/PWA is the supported platform; native iOS/Android binaries are not part of this project.

@@ -14,6 +14,8 @@ Start with [architecture](ARCHITECTURE.md), [feature status](FEATURES.md), [deve
 | DNS ownership and routing | [Domains](DOMAINS.md) |
 | API contracts | [API](API.md) |
 | Local setup and commands | [Development](DEVELOPMENT.md) |
+| X-Center preparation and proxy contract | [X-Center](XCENTER.md) |
+| Landing, motion and repository integration | [UADS 36 report](reports/UADS-36.md) |
 | Docker, backups and operator procedures | [Deployment](DEPLOYMENT.md) |
 | Tests and environment distinctions | [Testing](TESTING.md) |
 | Branches, builds and authorization | [Releases](RELEASES.md) |

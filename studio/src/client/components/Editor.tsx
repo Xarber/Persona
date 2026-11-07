@@ -74,11 +74,13 @@ export function Editor({
   workspace,
   onBack,
   onExport,
+  onShowLanding,
 }: {
   initial: Website;
   workspace: Workspace;
   onBack: () => void;
   onExport: (site: Website, project?: boolean) => Promise<void>;
+  onShowLanding: () => void;
 }) {
   const history = useRef(new History(initial.document)),
     siteRef = useRef(initial),
@@ -274,6 +276,7 @@ export function Editor({
   };
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
+      if (document.documentElement.dataset.entryView === 'landing') return;
       const el = e.target as HTMLElement;
       if (
         el.closest('input,textarea,select,[contenteditable=true]') ||
@@ -395,7 +398,9 @@ export function Editor({
           >
             <ArrowLeft size={18} />
           </button>
-          <img src="/branding/icon.svg" alt="Persona" />
+          <button className="editor-home" aria-label="Persona home" onClick={onShowLanding}>
+            <img src="/branding/icon.svg" alt="" />
+          </button>
           <button
             className="editor-site-title"
             onClick={() => {
