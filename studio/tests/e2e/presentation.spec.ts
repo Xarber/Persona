@@ -115,6 +115,8 @@ test('first entry is remembered and logo/history preserve the mounted editor', a
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Your work.');
   await page.goForward();
   await expect(canvas.getByRole('heading', { name: 'A little more about me' })).toBeVisible();
+  // The landing round-trip preserves pending edits. A full page reload waits for autosave.
+  await expect(page.locator('.save-status')).toHaveText('Saved');
   await page.reload();
   await expect(canvas.getByRole('heading', { name: 'A little more about me' })).toBeVisible();
 });

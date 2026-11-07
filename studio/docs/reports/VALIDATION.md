@@ -1,3 +1,5 @@
+> Historical validation of the initial private checkout. For the user-selected canonical repository and newest UADS integration, see [UADS 36 report](UADS-36.md). Statements below describe that earlier checkpoint.
+
 # Persona 0.1 validation report
 
 Date: **2026-11-07**, Europe/Rome. Scope: the new web/PWA implementation in this workspace. This is evidence for the scenarios listed below, not a claim that every item in the original specification or every possible application flow has been completed or audited.

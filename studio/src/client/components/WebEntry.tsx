@@ -57,6 +57,7 @@ export function WebEntry({ children }: { children: (showLanding: () => void) => 
     return () => window.removeEventListener('popstate', pop);
   }, []);
   useEffect(() => {
+    if (view === 'app') preferences.setItem(preference, 'true');
     document.title =
       view === 'landing'
         ? 'Persona — Your work. Your identity. Your web.'
