@@ -42,6 +42,8 @@ During verification, native dialog removal did not restore its trigger focus; ex
 
 Build output retains non-fatal dependency annotation/chunk warnings, experimental Node SQLite/WebCrypto notices, and an ancestor Expo tsconfig warning because root Expo dependencies are intentionally not installed for studio-only validation. TypeScript and the production build pass; root Expo is not validated by those results. Docker/PostgreSQL, external DNS/TLS, real authenticators/SMTP and physical PWA installation remain untested.
 
+After the final cache correction at `e0ba231`, rebuilt the production artifact with that exact BUILD_COMMIT and reran all four entry/presentation cases: **4 passed in 6.3 seconds**. The source ZIP metadata identifies `e0ba231`, includes the test sources and excludes runtime data/environment secrets. Documentation/capture-only follow-up does not change the tested application code. No automatically triggered testing workflow was observed.
+
 Integration commits: `18481f9` (both histories), `3b4473a` (root setup), `e1bd7ca` (landing/UI/configuration), `4f54909` (visible editor control), plus the final recorded-entry/verification commit visible in Git history. All completed changes are pushed to `Xarber/Persona:testing`, unsigned. No GitHub workflow was dispatched, no beta/main promotion was made and no application release was published. Native IPA/Simulator/APK/AAB builds are not applicable to this web module. See [remaining production work](../ROADMAP.md).
 
 ## Hosting and release limits
