@@ -72,6 +72,11 @@ describe('document model and renderer', () => {
     const copy = cloneNode(nodes.find((n) => n.type === 'container')!);
     expect(copy.children[0].id).not.toBe(nodes.find((n) => n.type === 'container')!.children[0].id);
   });
+  it('rejects collection routes that would overwrite another collection export', () => {
+    const doc = createDocument();
+    doc.collections.awards = [{ ...doc.collections.projects[0], id: id() }];
+    expect(() => parseDocument(doc)).toThrow('Duplicate content');
+  });
   it('undo and redo restore complete documents and new commands discard redo', () => {
     const doc = createDocument(),
       h = new History(doc);

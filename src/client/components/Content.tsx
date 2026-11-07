@@ -84,7 +84,9 @@ export function ContentManager({
                       title: item.title + ' copy',
                       slug: uniqueSlug(
                         item.slug,
-                        items.map((i) => i.slug),
+                        Object.values(doc.collections)
+                          .flat()
+                          .map((i) => i.slug),
                       ),
                     };
                     change((d) => d.collections[collection].push(clone));
@@ -127,7 +129,10 @@ export function ContentManager({
                         'slug',
                         uniqueSlug(
                           e.target.value,
-                          items.filter((i) => i.id !== item.id).map((i) => i.slug),
+                          Object.values(doc.collections)
+                            .flat()
+                            .filter((i) => i.id !== item.id)
+                            .map((i) => i.slug),
                         ),
                       )
                     }
@@ -208,7 +213,9 @@ export function ContentManager({
                     title: 'Untitled entry',
                     slug: uniqueSlug(
                       'new-project',
-                      items.map((i) => i.slug),
+                      Object.values(doc.collections)
+                        .flat()
+                        .map((i) => i.slug),
                     ),
                     summary: '',
                     body: '',

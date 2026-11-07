@@ -215,8 +215,8 @@ export const documentSchema = z
     }
     if (!slugs.has('')) ctx.addIssue({ code: 'custom', message: 'A homepage is required' });
     if (count > 1500) ctx.addIssue({ code: 'custom', message: 'Maximum 1500 nodes' });
+    const s = new Set<string>();
     for (const list of Object.values(doc.collections)) {
-      const s = new Set<string>();
       for (const item of list) {
         if (s.has(item.slug) || ids.has(item.id))
           ctx.addIssue({ code: 'custom', message: 'Duplicate content ID or slug' });
