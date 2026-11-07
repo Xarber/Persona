@@ -1,0 +1,13 @@
+# Privacy and ownership
+
+Persona has no advertising, data sale, forced public profile, hidden AI processing or mandatory proprietary hosting. Local projects/media/Ideas live in the browser. Connected drafts, assets, contact messages and ideas live on the configured self-hosted instance. Publishing is explicit; deliberately published content is visible to website visitors.
+
+Accounts collect email, password hash, sessions and any registered passkey public keys. SMTP verification/reset contacts the configured mail server only after the user requests that action. Private documents are not sent to AI providers. Authentication credentials and original uploads are never included in generated static pages or diagnostics.
+
+Optional analytics are off by default and count only page requests by site/day/path after opt-in. No visitor cookies, raw IP addresses, persistent cross-site identifiers or invented unique-visitor metrics are stored. Counts include bots and repeated requests. IPs may still exist in separately configured reverse-proxy/access logs; instance operators must control those logs and document their own policies. Contact form rate limiting uses transient process-local request information for abuse prevention.
+
+Worker maintenance removes aggregate analytics and form submissions older than 90 days, plus expired sessions and challenges. It runs only while the configured worker process is active; no background monitoring is claimed otherwise. Revisions/publication artifacts are retained for recovery. Account/site deletion revokes serving immediately and removes related database records. Orphaned media/artifact files and backup copies require documented operator cleanup and retention; deletion is not falsely presented as immediate physical erasure from all backups.
+
+Users can export their account, individual editable projects, independent static sites and Ideas. Account export requires authentication. Website deletion requires the exact website name; account deletion requires email/password confirmation. Session revocation, unpublish and domain removal are separate actions. Local browser data survives ordinary application updates, but clearing browser storage removes it. Connected draft caches are per user/device and cleared on sign-out; pending Ideas stay in their per-user device namespace for recovery and require the account to sync; portable backups remain the user's responsibility.
+
+This is a technical description of data handling, not a legal certification. A public operator must supply its own identity, lawful basis, retention and contact information appropriate to its deployment.
