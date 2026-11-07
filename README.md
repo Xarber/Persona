@@ -1,56 +1,35 @@
-# Welcome to your Expo app 👋
+# Persona
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Your work. Your identity. Your web.
 
-## Get started
+Persona combines the existing Expo application with an independent, local-first portfolio studio. The existing Expo source and both Git histories are preserved; the working studio is integrated additively under `studio/` on `testing`.
 
-1. Install dependencies
+![Persona studio](studio/docs/reports/editor-desktop.png)
 
-   ```bash
-   npm install
-   ```
+## Portfolio studio — web / PWA
 
-2. Start the app
+With Node 24 or later:
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```sh
+cd studio
+npm ci
+npm run dev
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Open `http://localhost:3100/` for the integrated product landing. Choose Open App to enter the studio; later visits open it directly. Click the Persona logo to return to the landing without losing your editor state. Local editing works without an account. Publishing requires the separate delivery listener and a configured server.
 
-### Other setup steps
+- [Studio overview](studio/README.md)
+- [Architecture and documentation](studio/docs/INDEX.md)
+- [Ideas collection](studio/docs/IDEAS.json)
+- [X-Center hosting plan](studio/docs/XCENTER.md)
+- [Integration decisions and validation](studio/docs/reports/UADS-36.md)
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Existing Expo application
 
-## Learn more
+The original Expo SDK 57 starter remains at the repository root. Its source, dependencies and configuration have not been rewritten. It is not yet a native version of the portfolio editor. [Original starter instructions](docs/EXPO_STARTER.md).
 
-To learn more about developing your project with Expo, look at the following resources:
+## Licensing and distribution
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Original portfolio studio code is **AGPL-3.0-only**; see [studio/LICENSE](studio/LICENSE). The Expo starter retains its original MIT notice in [LICENSE](LICENSE). No existing license was replaced.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This repository retains its existing public visibility. Development uses `testing`; `master` and its history are preserved. No hosted deployment, public binary release or additional distribution channel is activated by this integration.
