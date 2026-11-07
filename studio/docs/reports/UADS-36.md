@@ -36,6 +36,8 @@ Passed locally on Node 24/macOS with installed desktop Chrome:
 - Compared preserved root source/config/license against master: no differences. Verified both original Git tips are ancestors of testing, and remote master remains at its original SHA.
 - Visually inspected [desktop light](landing-light.png), [desktop dark](landing-dark.png) and [mobile dark](landing-mobile.png) captures. These are real browser captures, not physical device evidence or a full accessibility audit.
 
+Service-worker cache identities include every precached resource, including prerendered HTML, manifest and screenshot/icon bytes, so branding-only changes invalidate the old shell. The landing screenshot was refreshed from the current verified editor capture.
+
 During verification, native dialog removal did not restore its trigger focus; explicit close/connected-trigger cleanup corrected it. The new editor logo needed explicit dimensions after replacing a directly styled image with a button; fixed in `4f54909`. A test setup was initially applied inside opaque sandbox frames; it now writes the entry preference only in the top frame. The round-trip test preserves pending edits immediately and waits for normal autosave before its separate full reload assertion, avoiding automatic dismissal of the existing recovery confirmation.
 
 Build output retains non-fatal dependency annotation/chunk warnings, experimental Node SQLite/WebCrypto notices, and an ancestor Expo tsconfig warning because root Expo dependencies are intentionally not installed for studio-only validation. TypeScript and the production build pass; root Expo is not validated by those results. Docker/PostgreSQL, external DNS/TLS, real authenticators/SMTP and physical PWA installation remain untested.
