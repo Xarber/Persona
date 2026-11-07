@@ -1,0 +1,15 @@
+name: Bug report
+description: Report a reproducible problem with Persona.
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps, version, browser and platform
+    validations:
+      required: true

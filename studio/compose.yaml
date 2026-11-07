@@ -1,0 +1,74 @@
+name: persona
+services:
+  database:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: persona
+      POSTGRES_USER: persona
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U persona -d persona']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    build:
+      context: .
+      args:
+        BUILD_COMMIT: ${BUILD_COMMIT:-development}
+    restart: unless-stopped
+    environment: &app_environment
+      NODE_ENV: production
+      APP_ORIGIN: https://${APP_HOST:?Set APP_HOST}
+      PUBLIC_ORIGIN: https://${SITES_HOST:?Set SITES_HOST to a separate hostname}
+      DATABASE_URL: postgresql://persona:${POSTGRES_PASSWORD}@database:5432/persona
+      DATA_DIR: /data
+      DOMAIN_TARGET: ${SITES_HOST}
+      EXTERNAL_WORKER: 'true'
+      REGISTRATION_OPEN: ${REGISTRATION_OPEN:-false}
+      TRUST_PROXY: 'true'
+      SMTP_URL: ${SMTP_URL:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+      UPDATE_REPOSITORY: ${UPDATE_REPOSITORY:-}
+      RELEASE_CHANNEL: ${RELEASE_CHANNEL:-stable}
+      UPDATE_GITHUB_TOKEN: ${UPDATE_GITHUB_TOKEN:-}
+      BUILD_COMMIT: ${BUILD_COMMIT:-development}
+    volumes:
+      - data:/data
+    expose: ['3100', '3101']
+    depends_on:
+      database:
+        condition: service_healthy
+  worker:
+    build: .
+    command: [npm, run, worker]
+    restart: unless-stopped
+    environment: *app_environment
+    volumes:
+      - data:/data
+    depends_on:
+      database:
+        condition: service_healthy
+      app:
+        condition: service_started
+  proxy:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      APP_HOST: ${APP_HOST}
+      SITES_HOST: ${SITES_HOST}
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL}
+    ports: ['80:80', '443:443', '443:443/udp']
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [app]
+volumes:
+  postgres:
+  data:
+  caddy_data:
+  caddy_config:
