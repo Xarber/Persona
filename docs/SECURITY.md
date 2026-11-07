@@ -25,3 +25,7 @@ DNS ownership uses unique TXT proof, not routing alone. CNAME routing and freshn
 Use HTTPS, separate hostnames, closed registration where appropriate, encrypted backups and an unprivileged runtime. Only the proxy should be network-exposed in production. The bundled configuration overwrites forwarded headers; enable TRUST_PROXY only behind that trusted single hop. Do not place editor and user content on the same origin.
 
 Rate limits are process-local; a multi-replica deployment needs shared abuse controls. Current worker recovery supports one worker, not distributed leases. Outbound media URLs may disclose a visitor's network address to their chosen provider; only uploaded/copied assets are guaranteed self-contained. SVG/script rejection and security tests are targeted controls, not a claim of a complete penetration test. Dependency audit results are recorded in reports/VALIDATION.md, not assumed permanent.
+
+## Development-server files
+
+The Vite configuration preserves its sensitive-file deny defaults and adds both the private runtime directory and the .data namespace. It excludes runtime/build/test artifacts from watching so publishing does not reset an active editing session. A real middleware test checks ordinary and /@fs requests return 403 while a public icon still loads. Follow [Vite filesystem restrictions](https://vite.dev/config/server-options#server-fs-deny); never place DATA_DIR inside the public asset directory, which Vite intentionally serves without this filter. Production serves only the built distribution directory.

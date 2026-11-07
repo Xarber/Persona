@@ -12,7 +12,7 @@ A functioning dashboard, visual editor, shared validated renderer, six independe
 | --- | --- | --- |
 | `npm run check` | Passed | Strict TypeScript across application, server, scripts and tests |
 | `npm run format:check` | Passed | Prettier checks for source, scripts, tests and TypeScript config |
-| `npm test` | **38 passed**, 3 files | 22 authenticated API/integration cases, 14 document/history/renderer cases, 2 release-selection cases |
+| `npm test` | **39 passed**, 4 files | 22 authenticated API/integration cases, 14 document/history/renderer cases, 2 release-selection cases and 1 real Vite private-file access case |
 | `npm run build` | Passed | Vite production output, scoped worker generation and explicit-allowlist Corresponding Source ZIP |
 | `npm run test:e2e` | **5 passed** | Production-mode application and separate public listener; installed headless Chrome on macOS |
 | `npm audit --omit=dev --audit-level=high` | Passed, no known reported vulnerabilities | Local dependency snapshot only; not a permanent guarantee |
@@ -53,6 +53,7 @@ Tests use disposable `.test` identities and generated media. Server E2E storage 
 - Fit-to-canvas chooses a supported zoom value so its displayed percentage matches the actual scale.
 - Asset deletion preserves media referenced by recoverable revisions/deployments; independent export includes internal download links as well as image references.
 - Collection route uniqueness prevents one collection's generated detail page from overwriting another.
+- Development-server filesystem deny rules protect the private data directory in both ordinary and /@fs URL forms; runtime/artifact directories no longer trigger editor hot reload. An actual middleware request test verifies 403 responses without leaking the test marker and confirms public branding still loads.
 
 ## Screenshots
 
