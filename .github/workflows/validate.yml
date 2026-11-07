@@ -1,0 +1,77 @@
+name: Validate Persona
+on:
+  workflow_dispatch:
+  push:
+    branches: [beta, main]
+  pull_request:
+    branches: [beta, main]
+permissions:
+  contents: read
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+        env:
+          BUILD_COMMIT: ${{ github.sha }}
+      - run: npm audit --omit=dev --audit-level=high
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Persona-${{ github.ref_name }}-web-${{ github.sha }}
+          path: dist/
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+        env:
+          BUILD_COMMIT: ${{ github.sha }}
+      - run: npm run test:e2e
+        env:
+          CI: 'true'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Persona-${{ github.ref_name }}-browser-report-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      database:
+        image: postgres:17
+        env:
+          POSTGRES_DB: persona_test
+          POSTGRES_USER: persona
+          POSTGRES_PASSWORD: test-only-password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U persona -d persona_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+        env:
+          DATABASE_URL: postgresql://persona:test-only-password@localhost:5432/persona_test

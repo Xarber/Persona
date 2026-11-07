@@ -1,0 +1,22 @@
+{
+ email {$ACME_EMAIL}
+ on_demand_tls {
+  ask http://app:3101/_tls/allow
+ }
+}
+{$APP_HOST} {
+ encode zstd gzip
+ reverse_proxy app:3100
+}
+{$SITES_HOST} {
+ encode zstd gzip
+ reverse_proxy app:3101
+}
+# Only verified, routed, recently checked hostnames pass the ask endpoint.
+https:// {
+ tls {
+  on_demand
+ }
+ encode zstd gzip
+ reverse_proxy app:3101
+}
