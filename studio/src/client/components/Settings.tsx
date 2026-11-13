@@ -27,6 +27,7 @@ import { Workspace, api, download, read, write } from '../storage';
 import { ideaSchema, ideasPackage, release, id, type Idea } from '../../shared/schema';
 import { Modal, SearchBox, ErrorBox, Empty } from './ui';
 declare const __BUILD_COMMIT__: string;
+declare const __HOSTED_STUDIO__: boolean;
 export function SettingsPage({
   workspace,
   onLogout,
@@ -137,19 +138,23 @@ export function SettingsPage({
               <ChevronRight size={12} />
             </button>
           ))}
-          <button
-            className="version-trigger"
-            onClick={() => {
-              taps.current++;
-              if (taps.current === 3) {
-                setDev(true);
-                taps.current = 0;
-              }
-            }}
-          >
-            Persona {release.version}
-            <small>{__BUILD_COMMIT__}</small>
-          </button>
+          {__HOSTED_STUDIO__ ? (
+            <span className="version-trigger">Persona {release.version}</span>
+          ) : (
+            <button
+              className="version-trigger"
+              onClick={() => {
+                taps.current++;
+                if (taps.current === 3) {
+                  setDev(true);
+                  taps.current = 0;
+                }
+              }}
+            >
+              Persona {release.version}
+              <small>{__BUILD_COMMIT__}</small>
+            </button>
+          )}
         </nav>
         <div className="settings-content">
           <ErrorBox error={error} />
@@ -331,7 +336,7 @@ export function SettingsPage({
               <div className="setting-row">
                 <div>
                   <strong>Persona {release.version}</strong>
-                  <p>Stable channel · build {__BUILD_COMMIT__}</p>
+                  <p>Stable channel{!__HOSTED_STUDIO__ && ` · build ${__BUILD_COMMIT__}`}</p>
                 </div>
                 <button className="secondary" disabled={checking} onClick={() => void check()}>
                   <RefreshCw size={15} />
@@ -499,7 +504,7 @@ export function Changelog({ developer = false }: { developer?: boolean }) {
           ))}
         </div>
       </div>
-      {developer && (
+      {!__HOSTED_STUDIO__ && developer && (
         <details className="help-details">
           <summary>Technical build details</summary>
           <p>Document schema 1 · renderer registry 1 · stable channel</p>

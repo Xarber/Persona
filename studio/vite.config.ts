@@ -29,5 +29,8 @@ export default defineConfig({
       ],
     },
   },
-  define: { __BUILD_COMMIT__: JSON.stringify(process.env.BUILD_COMMIT || 'development') },
+  define: {
+    __BUILD_COMMIT__: JSON.stringify(process.env.BUILD_COMMIT || 'development'),
+    __HOSTED_STUDIO__: JSON.stringify(process.env.PERSONA_HOSTED === 'true'),
+  },
 });

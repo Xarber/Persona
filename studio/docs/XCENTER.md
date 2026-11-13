@@ -32,3 +32,11 @@ Custom portfolio hostnames require the ownership/routing/ACME checks in [Domains
 Verify `/api/health` reports the intended commit/version, then test login, create/edit/save, upload, publishing through the public listener, a real form submission, export, worker recovery, offline shell, root first-visit landing and remembered application entry over staging HTTPS. Verify publicly served version and separate-origin cookie behavior. Execute PostgreSQL backup/restoration and Docker health checks; local SQLite and Chromium tests are insufficient evidence.
 
 Only promote the validated image after deployment authorization. Preserve the previous image, protected configuration and consistent backup. Roll back this application's image and compatible data snapshot if critical checks fail. Never restore by deleting user data. Record actual host, version, commit, checks, logs and rollback outcome in the release report.
+
+## Public appliance deployment
+
+The public appliance profile is `infra/xcenter-appliance.compose.yaml`. It runs one non-root Node 24 container with a dedicated SQLite database, an embedded publishing worker and two loopback listeners. Persistent data lives in `/srv/xcenter/data/persona`. Keep one replica and take a consistent backup of that directory before each upgrade.
+
+Set `BUILD_COMMIT` to the checked-out SHA. `PERSONA_APP_ORIGIN` and `PERSONA_PUBLIC_ORIGIN` override the two configured HTTPS origins. Browser API calls use the editor origin automatically. The Docker build compiles out the developer entry point using `PERSONA_HOSTED=true`. This profile also disables custom domain creation because the shared Nginx ingress only routes the two configured hosts. The standalone Caddy profile retains its separate domain workflow.
+
+Build the candidate from an archived commit under `/srv/xcenter/apps/persona/releases/<sha>/`. Validate both loopback listeners before installing `infra/xcenter-nginx.conf` in the appliance's existing vhost include directory. Use `nginx -t` before a graceful reload. Keep the previous image and a consistent data backup for upgrades. To withdraw the initial deployment, remove the Persona-only vhost, validate/reload Nginx, and stop the Persona Compose project while retaining its data.

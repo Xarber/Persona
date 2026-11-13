@@ -196,8 +196,7 @@ export function Landing({ onOpen }: { onOpen?: () => void }) {
               <h3>Host your own studio</h3>
               <p>
                 The server runs on Node 24 with SQLite or PostgreSQL. Read the setup and backup
-                guides before hosting. X-Center is the default deployment target; no hosted instance
-                is activated by this page.
+                guides before hosting.
               </p>
               <a href="https://github.com/Xarber/Persona/blob/testing/studio/docs/DEVELOPMENT.md">
                 Setup documentation <ArrowUpRight size={15} />
@@ -233,10 +232,7 @@ export function Landing({ onOpen }: { onOpen?: () => void }) {
           <a href="/source.zip">AGPL-3.0 source archive</a>
           <a href="https://github.com/Xarber/Persona/blob/testing/studio/LICENSE">License</a>
         </nav>
-        <small>
-          Independent software, part of OpenRecode. Web studio 0.1 · Native portfolio editing is not
-          yet integrated into the Expo starter.
-        </small>
+        <small>Independent software, part of OpenRecode. Web studio 0.1.</small>
       </footer>
     </div>
   );

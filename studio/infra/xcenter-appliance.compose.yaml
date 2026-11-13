@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+name: persona
+services:
+  studio:
+    image: persona:${BUILD_COMMIT:?Set exact Git SHA}
+    build:
+      context: ..
+      args:
+        BUILD_COMMIT: ${BUILD_COMMIT}
+        PERSONA_HOSTED: 'true'
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:18130:3100'
+      - '127.0.0.1:18131:3101'
+    environment:
+      APP_ORIGIN: ${PERSONA_APP_ORIGIN:-https://persona.xcenter.it}
+      PUBLIC_ORIGIN: ${PERSONA_PUBLIC_ORIGIN:-https://persona-sites.xcenter.it}
+      PERSONA_HOSTED: 'true'
+      REGISTRATION_OPEN: ${REGISTRATION_OPEN:-true}
+      TRUST_PROXY: 'true'
+      BUILD_COMMIT: ${BUILD_COMMIT}
+    volumes:
+      - /srv/xcenter/data/persona:/data
+    read_only: true
+    tmpfs: ['/tmp:size=32m']
+    mem_limit: 384m
+    cpus: 0.75
+    pids_limit: 128
+    cap_drop: [ALL]
+    security_opt: ['no-new-privileges:true']
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3100/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 20s
+      timeout: 5s
+      retries: 3

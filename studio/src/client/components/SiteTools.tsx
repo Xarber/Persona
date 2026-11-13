@@ -1,3 +1,4 @@
+declare const __HOSTED_STUDIO__: boolean;
 // Copyright (c) 2026 Persona contributors
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useEffect, useState } from 'react';
@@ -109,7 +110,7 @@ export function SiteTools({
         <nav aria-label="Website tools">
           {[
             { id: 'publish', label: 'Publishing', icon: Globe },
-            { id: 'domains', label: 'Domains', icon: Shield },
+            ...(__HOSTED_STUDIO__ ? [] : [{ id: 'domains', label: 'Domains', icon: Shield }]),
             { id: 'seo', label: 'Search & social', icon: Search },
             { id: 'inbox', label: 'Messages', icon: Mail },
             { id: 'export', label: 'Export & own', icon: Download },

@@ -696,6 +696,11 @@ export function createApp() {
     '/api/websites/:id/domains',
     auth,
     endpoint(async (req, res) => {
+      requireThat(
+        process.env.PERSONA_HOSTED !== 'true',
+        403,
+        'Custom domains are unavailable on this instance.',
+      );
       const s = await ownSite(req.userId!, String(req.params.id));
       const input = z.object({ hostname: z.string().min(4).max(253) }).parse(req.body);
       const host = domainToASCII(input.hostname.toLowerCase().replace(/\.$/, ''));
