@@ -13,3 +13,7 @@ Autosave waits 650ms after edits and first writes an IndexedDB recovery draft. R
 Pages can be created, renamed, duplicated and deleted, assigned safe slugs, marked as homepage and included/excluded from navigation. Project collection detail pages are generated separately. Preview routing uses isolated messages rather than navigating into administrative routes. A separate-tab preview is a self-contained sandbox wrapper. Exports are real multi-page static directories.
 
 Limitations: direct text editing is plain text, not a rich-text toolbar; layout drag operations occur in Layers rather than arbitrary freeform canvas coordinates; no alignment guides, arbitrary absolute positioning or custom breakpoint editor is implemented. The desktop inspector remains available by horizontal scrolling on narrow editing windows. See ROADMAP.md.
+
+## Compact browser layout
+
+At viewport widths up to 650 px, the editor shows one of Canvas, Structure or Style at a time. Panel switching keeps the same document, selection and undo history. Fit chooses a zoom preset based on the canvas's available width. The phone layout uses the same renderer and persistence as desktop.

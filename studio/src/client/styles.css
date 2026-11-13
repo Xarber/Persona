@@ -3262,3 +3262,71 @@ small {
     transition: none;
   }
 }
+
+.editor-compact-nav,
+.editor-workspace[data-layers-hidden='true'] > .editor-left {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  .editor-shell {
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .editor-compact-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px 8px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+  .editor-compact-nav button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+  .editor-compact-nav button[aria-pressed='true'] {
+    background: var(--soft);
+    font-weight: 650;
+  }
+  .editor-workspace {
+    overflow: hidden;
+  }
+  .editor-workspace > :is(.editor-left, .editor-inspector, .canvas-area) {
+    display: none;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    border-inline: 0;
+    resize: none;
+  }
+  .editor-workspace[data-panel='canvas'] > .canvas-area,
+  .editor-workspace[data-panel='structure'] > .editor-left {
+    display: flex;
+  }
+  .editor-workspace[data-panel='style'] > .editor-inspector {
+    display: block;
+  }
+  .editor-left-tabs > button {
+    min-height: 44px;
+    font-size: 12px;
+    gap: 5px;
+  }
+  .canvas-ruler > button:first-child {
+    display: none;
+  }
+  .canvas-ruler {
+    justify-content: space-between;
+    min-height: 44px;
+  }
+  .canvas-ruler .text-button {
+    min-height: 44px;
+    font-size: 12px;
+  }
+}

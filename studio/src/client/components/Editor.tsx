@@ -69,6 +69,8 @@ import { SiteTools } from './SiteTools';
 import { ContentManager } from './Content';
 import { Assets } from './Assets';
 import { Modal, ErrorBox } from './ui';
+const zoomLevels = [20, 25, 30, 40, 50, 60, 70, 80, 100];
+
 export function Editor({
   initial,
   workspace,
@@ -87,6 +89,7 @@ export function Editor({
     docRef = useRef(initial.document),
     saved = useRef(JSON.stringify(initial.document)),
     frame = useRef<HTMLIFrameElement>(null),
+    canvasScroll = useRef<HTMLDivElement>(null),
     previewFrame = useRef<HTMLIFrameElement>(null),
     clipboard = useRef<SiteNode[]>([]),
     channel = useRef(id());
@@ -97,6 +100,7 @@ export function Editor({
     [zoom, setZoom] = useState(70),
     [leftTab, setLeftTab] = useState('layers'),
     [showLeft, setShowLeft] = useState(true),
+    [compactPanel, setCompactPanel] = useState<'canvas' | 'structure' | 'style'>('canvas'),
     [preview, setPreview] = useState(false),
     [tools, setTools] = useState(false),
     [content, setContent] = useState(false),
@@ -451,7 +455,7 @@ export function Editor({
             value={zoom}
             onChange={(e) => setZoom(Number(e.target.value))}
           >
-            {[40, 50, 60, 70, 80, 100].map((v) => (
+            {zoomLevels.map((v) => (
               <option key={v} value={v}>
                 {v}%
               </option>
@@ -514,164 +518,181 @@ export function Editor({
           )}
         </div>
       )}
-      <div className="editor-workspace">
-        {showLeft && (
-          <aside className="editor-left">
-            <div className="editor-left-tabs">
-              {[
-                { id: 'layers', icon: LayersIcon, label: 'Layers' },
-                { id: 'add', icon: Plus, label: 'Insert' },
-                { id: 'pages', icon: LayoutTemplate, label: 'Pages' },
-              ].map((t) => (
+      <nav className="editor-compact-nav" aria-label="Editor panels">
+        {(
+          [
+            { id: 'canvas', icon: Monitor, label: 'Canvas' },
+            { id: 'structure', icon: LayersIcon, label: 'Structure' },
+            { id: 'style', icon: Palette, label: 'Style' },
+          ] as const
+        ).map(({ id, icon: Icon, label }) => (
+          <button
+            key={id}
+            type="button"
+            aria-pressed={compactPanel === id}
+            onClick={() => setCompactPanel(id)}
+          >
+            <Icon size={17} aria-hidden="true" />
+            {label}
+          </button>
+        ))}
+      </nav>
+      <div className="editor-workspace" data-panel={compactPanel} data-layers-hidden={!showLeft}>
+        <aside className="editor-left">
+          <div className="editor-left-tabs">
+            {[
+              { id: 'layers', icon: LayersIcon, label: 'Layers' },
+              { id: 'add', icon: Plus, label: 'Insert' },
+              { id: 'pages', icon: LayoutTemplate, label: 'Pages' },
+            ].map((t) => (
+              <button
+                key={t.id}
+                className={leftTab === t.id ? 'active' : ''}
+                onClick={() => setLeftTab(t.id)}
+              >
+                <t.icon size={16} />
+                {t.label}
+              </button>
+            ))}
+          </div>
+          {leftTab === 'layers' ? (
+            <>
+              <div className="panel-heading">
+                <strong>{page.name}</strong>
                 <button
-                  key={t.id}
-                  className={leftTab === t.id ? 'active' : ''}
-                  onClick={() => setLeftTab(t.id)}
+                  className="icon-button"
+                  aria-label="Add component"
+                  onClick={() => setLeftTab('add')}
                 >
-                  <t.icon size={16} />
-                  {t.label}
+                  <Plus size={15} />
+                </button>
+              </div>
+              <Layers
+                nodes={page.nodes}
+                selected={selected}
+                onSelect={(nodeId, multi) => {
+                  select(nodeId, multi);
+                  frame.current?.contentWindow?.postMessage(
+                    { channel: channel.current, type: 'scroll', id: nodeId },
+                    '*',
+                  );
+                }}
+                onMove={(nodeId, target) => apply(moveNode(docRef.current, nodeId, target))}
+              />
+              <p className="layers-help">
+                Drag a handle to reorder.
+                <br />
+                Double-click canvas text to write.
+                <br />⌘ / Ctrl + click to select several.
+              </p>
+            </>
+          ) : leftTab === 'add' ? (
+            <>
+              <div className="panel-heading">
+                <strong>Make room for more</strong>
+              </div>
+              {['Basic', 'Layout', 'Portfolio', 'Media', 'Interactive'].map((category) => (
+                <div className="component-category" key={category}>
+                  <h3>{category}</h3>
+                  <div className="component-buttons">
+                    {(Object.entries(registry) as [Kind, (typeof registry)[Kind]][])
+                      .filter(([, r]) => r.category === category)
+                      .map(([type, r]) => (
+                        <button key={type} onClick={() => add(type)}>
+                          <span>{r.label[0]}</span>
+                          {r.label}
+                          <Plus size={12} />
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="panel-heading">
+                <strong>Pages</strong>
+                <button
+                  className="icon-button"
+                  aria-label="Add page"
+                  onClick={() => {
+                    const name = prompt('Page name');
+                    if (name) {
+                      const newId = id();
+                      mutate((d) => {
+                        d.pages.push({
+                          id: newId,
+                          name,
+                          slug: uniqueSlug(
+                            name,
+                            d.pages.map((p) => p.slug),
+                          ),
+                          description: '',
+                          visible: true,
+                          nodes: [
+                            makeNode('navigation', { text: d.name }),
+                            makeNode('heading', { text: name }),
+                            makeNode('footer'),
+                          ],
+                        });
+                      });
+                      setPageId(newId);
+                    }
+                  }}
+                >
+                  <Plus size={15} />
+                </button>
+              </div>
+              {doc.pages.map((p) => (
+                <button
+                  className={'page-row ' + (p.id === page.id ? 'selected' : '')}
+                  key={p.id}
+                  onClick={() => {
+                    setPageId(p.id);
+                    setSelected([]);
+                  }}
+                >
+                  <LayoutTemplate size={14} />
+                  {p.name}
+                  <small>{p.slug === '' ? 'Home' : '/' + p.slug}</small>
                 </button>
               ))}
-            </div>
-            {leftTab === 'layers' ? (
-              <>
-                <div className="panel-heading">
-                  <strong>{page.name}</strong>
-                  <button
-                    className="icon-button"
-                    aria-label="Add component"
-                    onClick={() => setLeftTab('add')}
-                  >
-                    <Plus size={15} />
-                  </button>
-                </div>
-                <Layers
-                  nodes={page.nodes}
-                  selected={selected}
-                  onSelect={(nodeId, multi) => {
-                    select(nodeId, multi);
-                    frame.current?.contentWindow?.postMessage(
-                      { channel: channel.current, type: 'scroll', id: nodeId },
-                      '*',
-                    );
-                  }}
-                  onMove={(nodeId, target) => apply(moveNode(docRef.current, nodeId, target))}
-                />
-                <p className="layers-help">
-                  Drag a handle to reorder.
-                  <br />
-                  Double-click canvas text to write.
-                  <br />⌘ / Ctrl + click to select several.
-                </p>
-              </>
-            ) : leftTab === 'add' ? (
-              <>
-                <div className="panel-heading">
-                  <strong>Make room for more</strong>
-                </div>
-                {['Basic', 'Layout', 'Portfolio', 'Media', 'Interactive'].map((category) => (
-                  <div className="component-category" key={category}>
-                    <h3>{category}</h3>
-                    <div className="component-buttons">
-                      {(Object.entries(registry) as [Kind, (typeof registry)[Kind]][])
-                        .filter(([, r]) => r.category === category)
-                        .map(([type, r]) => (
-                          <button key={type} onClick={() => add(type)}>
-                            <span>{r.label[0]}</span>
-                            {r.label}
-                            <Plus size={12} />
-                          </button>
-                        ))}
-                    </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>
-                <div className="panel-heading">
-                  <strong>Pages</strong>
-                  <button
-                    className="icon-button"
-                    aria-label="Add page"
-                    onClick={() => {
-                      const name = prompt('Page name');
-                      if (name) {
-                        const newId = id();
-                        mutate((d) => {
-                          d.pages.push({
-                            id: newId,
-                            name,
-                            slug: uniqueSlug(
-                              name,
-                              d.pages.map((p) => p.slug),
-                            ),
-                            description: '',
-                            visible: true,
-                            nodes: [
-                              makeNode('navigation', { text: d.name }),
-                              makeNode('heading', { text: name }),
-                              makeNode('footer'),
-                            ],
-                          });
-                        });
-                        setPageId(newId);
-                      }
-                    }}
-                  >
-                    <Plus size={15} />
-                  </button>
-                </div>
-                {doc.pages.map((p) => (
-                  <button
-                    className={'page-row ' + (p.id === page.id ? 'selected' : '')}
-                    key={p.id}
-                    onClick={() => {
-                      setPageId(p.id);
-                      setSelected([]);
-                    }}
-                  >
-                    <LayoutTemplate size={14} />
-                    {p.name}
-                    <small>{p.slug === '' ? 'Home' : '/' + p.slug}</small>
-                  </button>
-                ))}
-                <button
-                  className="text-button page-settings-link"
-                  onClick={() => setPageSettings(true)}
-                >
-                  <Settings size={14} />
-                  Page settings
-                </button>
-              </>
-            )}
-            <div className="editor-left-bottom">
               <button
-                onClick={() => {
-                  setSelected([]);
-                }}
+                className="text-button page-settings-link"
+                onClick={() => setPageSettings(true)}
               >
-                <Palette size={16} />
-                Site styles
+                <Settings size={14} />
+                Page settings
               </button>
-              <button onClick={() => setContent(true)}>
-                <Database size={16} />
-                Content
-              </button>
-              <button onClick={() => setAssets(true)}>
-                <FolderOpen size={16} />
-                Assets
-              </button>
-              <button onClick={() => setRevisions(true)}>
-                <HistoryIcon size={16} />
-                Revision history
-              </button>
-              <button onClick={() => setTools(true)}>
-                <Settings size={16} />
-                Site settings
-              </button>
-            </div>
-          </aside>
-        )}
+            </>
+          )}
+          <div className="editor-left-bottom">
+            <button
+              onClick={() => {
+                setSelected([]);
+              }}
+            >
+              <Palette size={16} />
+              Site styles
+            </button>
+            <button onClick={() => setContent(true)}>
+              <Database size={16} />
+              Content
+            </button>
+            <button onClick={() => setAssets(true)}>
+              <FolderOpen size={16} />
+              Assets
+            </button>
+            <button onClick={() => setRevisions(true)}>
+              <HistoryIcon size={16} />
+              Revision history
+            </button>
+            <button onClick={() => setTools(true)}>
+              <Settings size={16} />
+              Site settings
+            </button>
+          </div>
+        </aside>
         <div className="canvas-area">
           <div className="canvas-ruler">
             <button
@@ -688,11 +709,16 @@ export function Editor({
             <button
               className="text-button"
               onClick={() => {
-                const available = Math.floor(
-                  ((window.innerWidth - (showLeft ? 540 : 300)) / width) * 100,
-                );
+                const scroll = canvasScroll.current;
+                if (!scroll) return;
+                const style = getComputedStyle(scroll);
+                const available =
+                  scroll.clientWidth -
+                  parseFloat(style.paddingLeft) -
+                  parseFloat(style.paddingRight);
                 setZoom(
-                  [40, 50, 60, 70, 80, 100].filter((value) => value <= available).at(-1) || 40,
+                  zoomLevels.findLast((value) => (width * value) / 100 <= available) ??
+                    zoomLevels[0],
                 );
               }}
             >
@@ -700,7 +726,7 @@ export function Editor({
               Fit
             </button>
           </div>
-          <div className="canvas-scroll" onClick={() => setContext(false)}>
+          <div ref={canvasScroll} className="canvas-scroll" onClick={() => setContext(false)}>
             <div
               className="canvas-sheet"
               style={{ width: (width * zoom) / 100, height: (Math.max(800, 1000) * zoom) / 100 }}

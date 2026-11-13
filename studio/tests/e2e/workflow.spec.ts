@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Persona contributors
 // SPDX-License-Identifier: AGPL-3.0-only
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, devices, type Page } from '@playwright/test';
 import { createServer } from 'node:http';
 import { mkdtemp, readFile, rm, writeFile, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -256,6 +256,41 @@ test('production PWA supports cold offline local editing and a responsive dashbo
   await expect(page.getByTitle('Portfolio canvas')).toBeVisible();
   await saved(page);
   await context.setOffline(false);
+});
+
+test.describe('compact touch editor', () => {
+  const { viewport, deviceScaleFactor, isMobile, hasTouch, userAgent } = devices['iPhone 13'];
+  test.use({ viewport, deviceScaleFactor, isMobile, hasTouch, userAgent });
+
+  test('shows one panel at a time and saves an edit without horizontal workspace scroll', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await createLocal(page, 'Touch portfolio');
+    const panels = page.getByRole('navigation', { name: 'Editor panels' });
+    const workspace = page.locator('.editor-workspace');
+    await expect(workspace.locator('.editor-left')).toBeHidden();
+    await expect(workspace.locator('.editor-inspector')).toBeHidden();
+    expect(await workspace.evaluate((el) => el.scrollWidth)).toBe(390);
+    await page.getByRole('button', { name: 'Fit', exact: true }).tap();
+    const sheet = await page.locator('.canvas-sheet').boundingBox();
+    expect(sheet!.x + sheet!.width).toBeLessThanOrEqual(390);
+
+    await panels.getByRole('button', { name: 'Structure' }).tap();
+    await expect(page.getByTitle('Portfolio canvas')).toBeHidden();
+    await page.getByRole('button', { name: 'Insert', exact: true }).tap();
+    await page.locator('.component-buttons').getByRole('button', { name: 'Heading' }).tap();
+    await panels.getByRole('button', { name: 'Style' }).tap();
+    await page.getByLabel('Text size', { exact: true }).fill('30');
+    await panels.getByRole('button', { name: 'Canvas' }).tap();
+    const heading = page
+      .frameLocator('[title="Portfolio canvas"]')
+      .getByRole('heading', { name: 'A little more about me' });
+    await expect(heading).toHaveCSS('font-size', '30px');
+    await saved(page);
+    await page.reload();
+    await expect(heading).toHaveCSS('font-size', '30px');
+  });
 });
 
 test('passkey registration and sign-in with a virtual authenticator', async ({ page, context }) => {
