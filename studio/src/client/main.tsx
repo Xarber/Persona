@@ -750,12 +750,12 @@ function App({ onShowLanding }: { onShowLanding: () => void }) {
           <button
             onClick={() => {
               if (confirm('Reload Persona? Save open edits first.')) {
-                swUpdate.postMessage({ type: 'SKIP_WAITING' });
                 navigator.serviceWorker.addEventListener(
                   'controllerchange',
                   () => location.reload(),
                   { once: true },
                 );
+                swUpdate.postMessage({ type: 'SKIP_WAITING' });
               }
             }}
           >

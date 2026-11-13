@@ -108,6 +108,9 @@ const audit = (userId: string, action: string, resource: string) =>
   ]);
 export function createApp() {
   const app = express();
+  const origin = new URL(process.env.APP_ORIGIN || 'http://localhost:3100');
+  const loopbackHttp =
+    origin.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(origin.hostname);
   if (process.env.TRUST_PROXY === 'true') app.set('trust proxy', 1);
   app.disable('x-powered-by');
   app.use(
@@ -125,7 +128,8 @@ export function createApp() {
           connectSrc: ["'self'", ...(process.env.NODE_ENV !== 'production' ? ['ws:'] : [])],
           frameSrc: ["'self'", 'blob:'],
           objectSrc: ["'none'"],
-          upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null,
+          upgradeInsecureRequests:
+            process.env.NODE_ENV === 'production' && !loopbackHttp ? [] : null,
         },
       },
       crossOriginEmbedderPolicy: false,
