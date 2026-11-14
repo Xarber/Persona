@@ -1,6 +1,6 @@
 # X-Center staging and deployment plan
 
-X-Center is Persona's default hosting target. This is a prepared configuration, **not a deployment**. No X-Center account, hostname, reverse proxy or existing service has been inspected or modified in this task.
+X-Center hosts the public Persona studio at https://persona.xcenter.it. Published portfolios use https://persona-sites.xcenter.it. The historical staging guidance below describes the standalone Compose profile. See the public appliance section for the active deployment.
 
 ## Existing infrastructure first
 
@@ -40,3 +40,12 @@ The public appliance profile is `infra/xcenter-appliance.compose.yaml`. It runs 
 Set `BUILD_COMMIT` to the checked-out SHA. `PERSONA_APP_ORIGIN` and `PERSONA_PUBLIC_ORIGIN` override the two configured HTTPS origins. Browser API calls use the editor origin automatically. The Docker build compiles out the developer entry point using `PERSONA_HOSTED=true`. This profile also disables custom domain creation because the shared Nginx ingress only routes the two configured hosts. The standalone Caddy profile retains its separate domain workflow.
 
 Build the candidate from an archived commit under `/srv/xcenter/apps/persona/releases/<sha>/`. Validate both loopback listeners before installing `infra/xcenter-nginx.conf` in the appliance's existing vhost include directory. Use `nginx -t` before a graceful reload. Keep the previous image and a consistent data backup for upgrades. To withdraw the initial deployment, remove the Persona-only vhost, validate/reload Nginx, and stop the Persona Compose project while retaining its data.
+
+## Deployment verification — 14 November 2026
+
+- The appliance built and started Persona 0.1.0 from commit `998b4ebcf25d5c93a5ed009bec2452c0da795017`. The image manifest digest is `sha256:076dac3f9f1f2921c33d3a49de0a29ec8d90b696a6c132cb0818a3b027899f90`.
+- The container passed its loopback health check. Nginx configuration validation and graceful reload passed. The public HTTPS health route returned the exact build commit. Fieldplay remained reachable after reload.
+- Chrome against the public endpoints passed landing entry, hosted Settings, registration, template creation, image upload, save, publishing on the separate origin, contact submission and ZIP export. The synthetic test account was removed and its published URL returned 404.
+- Local type check, 39 Vitest tests and 10 Chrome tests passed. The hosted profile also passed a separate Settings smoke test.
+- The initial build stalled with the system disk full. The retry succeeded after space became available. The appliance reported only 46 MiB available on its root filesystem immediately after startup. Free capacity before another build. No unrelated Docker images, volumes or service data were removed.
+- Native Expo output remains a starter, so no Persona IPA/APK workflow or artifact applies. Physical devices, full PWA upgrade, backup restoration and custom-domain routing are outside this verification.
