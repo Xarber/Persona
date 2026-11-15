@@ -1,0 +1,191 @@
+{
+  "uadsVersion": "baseline-2026-11-15-sections-1-50",
+  "manifestVersion": 1,
+  "project": {
+    "name": "Persona",
+    "repository": "Xarber/Persona",
+    "profiles": [
+      "web-app",
+      "web-service"
+    ],
+    "framework": "React, Vite, Express and Node.js",
+    "platforms": [
+      "web-desktop",
+      "web-mobile"
+    ],
+    "hosting": "X-Center"
+  },
+  "distribution": {
+    "web": "https://persona.xcenter.it",
+    "portfolios": "https://persona-sites.xcenter.it"
+  },
+  "quality": {
+    "workflow": ".github/workflows/uads-quality.yml",
+    "budgets": "config/performance-budgets.json"
+  },
+  "requirements": [
+    {
+      "id": "UADS-PLAT-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "native starter has no Persona editor",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-ARCH-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "shared renderer and isolated publisher",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-GIT-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "testing integration; master retained",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-DOC-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "studio documentation and AGPL license",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-UI-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "browser checks cover only selected interactions",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-UI-002",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "reduced-motion browser assertion",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-UI-003",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "landing exists; programmable install and release discovery pending",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-DEV-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "hosted profile intentionally hides developer controls per deployment request",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-DEV-002",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "browser Ideas tests cover persistence and expiry",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-DEV-003",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "onboarding, screenshot tooling and sample mode pending",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-SEC-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "API tests cover selected authorization paths",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-QA-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "source checks configured; changed-code coverage and accessibility audit pending",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-QA-002",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "bundle limit enforced; field and backend measurements pending",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-REL-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "web validation workflow; no authorized GitHub artifact release pipeline",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-DIST-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "PWA update flow exists; no native distribution",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-OPS-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "live health verification and restore evidence tracked separately",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-DATA-001",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "sample mode pending",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    },
+    {
+      "id": "UADS-QA-003",
+      "applicability": "required",
+      "state": "Pending",
+      "notes": "structural validation is separate from implementation evidence",
+      "evidence": [
+        "docs/reports/compliance/2026-11-15.md"
+      ]
+    }
+  ],
+  "exceptions": []
+}

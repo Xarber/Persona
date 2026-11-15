@@ -1,0 +1,330 @@
+[
+  {
+    "id": "UADS-PLAT-001",
+    "title": "Supported web and native targets",
+    "sections": [
+      "10",
+      "36"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-ARCH-001",
+    "title": "Shared document and rendering architecture",
+    "sections": [
+      "2",
+      "3",
+      "12",
+      "13"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-GIT-001",
+    "title": "Repository and promotion policy",
+    "sections": [
+      "6",
+      "7",
+      "34"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-DOC-001",
+    "title": "Project and license documentation",
+    "sections": [
+      "1",
+      "4",
+      "5"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-UI-001",
+    "title": "WCAG 2.2 AA and responsive controls",
+    "sections": [
+      "17",
+      "18",
+      "36",
+      "42"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-UI-002",
+    "title": "Motion and reduced motion",
+    "sections": [
+      "18",
+      "36"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-UI-003",
+    "title": "First-visit landing and install flow",
+    "sections": [
+      "32",
+      "36",
+      "39"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-DEV-001",
+    "title": "Developer Options and diagnostics",
+    "sections": [
+      "15",
+      "38"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-DEV-002",
+    "title": "Ideas lifecycle and interchange",
+    "sections": [
+      "35"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-DEV-003",
+    "title": "Onboarding, screenshots, isolated sample data",
+    "sections": [
+      "20",
+      "33",
+      "37"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-SEC-001",
+    "title": "Authorization, privacy and trust boundaries",
+    "sections": [
+      "21",
+      "43"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-QA-001",
+    "title": "CI quality, accessibility and coverage",
+    "sections": [
+      "22",
+      "23",
+      "42",
+      "48",
+      "49"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-QA-002",
+    "title": "Performance budgets",
+    "sections": [
+      "42"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-REL-001",
+    "title": "Build, changelog and recoverable publication",
+    "sections": [
+      "8",
+      "9",
+      "16",
+      "24",
+      "40",
+      "44"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-DIST-001",
+    "title": "Updates and distribution synchronization",
+    "sections": [
+      "14",
+      "25",
+      "31",
+      "39",
+      "40"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-OPS-001",
+    "title": "X-Center health and operations",
+    "sections": [
+      "24",
+      "36",
+      "45"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-DATA-001",
+    "title": "Provenance and sample isolation",
+    "sections": [
+      "19",
+      "20",
+      "37"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  },
+  {
+    "id": "UADS-QA-003",
+    "title": "Schema, traceability and evidence management",
+    "sections": [
+      "41",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50"
+    ],
+    "applicability": "Persona web studio and its hosted service",
+    "priority": "required",
+    "verification": "Review the project evidence and run the applicable checks",
+    "evidence": "docs/reports/compliance/2026-11-15.md",
+    "checks": [
+      "uads-quality"
+    ],
+    "dependencies": [],
+    "exceptionPolicy": "Explicit approval and review date required"
+  }
+]

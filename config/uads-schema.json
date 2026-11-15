@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "uadsVersion",
+    "manifestVersion",
+    "project",
+    "distribution",
+    "quality",
+    "requirements",
+    "exceptions"
+  ],
+  "properties": {
+    "uadsVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "manifestVersion": {
+      "const": 1
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "name",
+        "repository",
+        "profiles",
+        "framework",
+        "platforms",
+        "hosting"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository": {
+          "type": "string",
+          "pattern": "^[^/]+/[^/]+$"
+        },
+        "profiles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "web-app",
+              "web-service",
+              "backend-service",
+              "cli-tool",
+              "mobile-app",
+              "desktop-app",
+              "library",
+              "hybrid"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "framework": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "web-desktop",
+              "web-mobile",
+              "ios",
+              "android",
+              "macos",
+              "windows",
+              "linux"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "hosting": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "required": [
+        "web",
+        "portfolios"
+      ],
+      "properties": {
+        "web": {
+          "type": "string",
+          "format": "uri"
+        },
+        "portfolios": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": [
+        "workflow",
+        "budgets"
+      ],
+      "properties": {
+        "workflow": {
+          "type": "string",
+          "minLength": 1
+        },
+        "budgets": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "applicability",
+          "state",
+          "notes",
+          "evidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^UADS-[A-Z]+-[0-9]{3}$"
+          },
+          "applicability": {
+            "enum": [
+              "required",
+              "conditional",
+              "optional",
+              "not-applicable",
+              "approved-exception"
+            ]
+          },
+          "state": {
+            "enum": [
+              "Pending",
+              "Passed",
+              "Failed",
+              "Blocked",
+              "Not Applicable",
+              "Waived"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "scope",
+          "reason",
+          "risks",
+          "mitigations",
+          "approval",
+          "approvedOn",
+          "reviewOn",
+          "reconsiderWhen"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^UADS-[A-Z]+-[0-9]{3}$"
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "risks": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mitigations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "approval": {
+            "type": "string",
+            "minLength": 1
+          },
+          "approvedOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "reviewOn": {
+            "type": "string",
+            "format": "date"
+          },
+          "reconsiderWhen": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

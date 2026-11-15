@@ -1,0 +1,3 @@
+# Persona recovery
+
+Proposed objectives are 24 hours RPO and 4 hours RTO. These targets require daily consistent backups and an isolated restore drill. Back up the SQLite database and portfolio files together during a quiesced window, retain encrypted copies away from the appliance, and preserve the Compose and Nginx configuration with the exact deployed commit. Restore into a separate data directory and test database integrity, authentication, a published portfolio, and export before any production cutover. Scheduled backup coverage and restore duration remain unverified. See [X-Center operations](../../studio/docs/XCENTER.md).

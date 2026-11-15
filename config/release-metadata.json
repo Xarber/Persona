@@ -1,0 +1,9 @@
+{
+  "versionSource": "studio/package.json",
+  "deploymentIdentity": "BUILD_COMMIT",
+  "authorization": [
+    "xcenter-web"
+  ],
+  "developmentBranch": "testing",
+  "githubPublication": false
+}

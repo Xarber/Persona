@@ -1,0 +1,7 @@
+{
+  "maxEntryJsGzipBytes": 190000,
+  "lcpMs": 2500,
+  "inpMs": 200,
+  "cls": 0.1,
+  "fieldPercentile": 75
+}
