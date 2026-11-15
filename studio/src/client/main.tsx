@@ -36,6 +36,7 @@ import { CreateSite, TemplateGallery, Thumbnail } from './components/Templates';
 import { Modal, Empty, NewButton, SearchBox, ErrorBox } from './components/ui';
 import './styles.css';
 import { WebEntry } from './components/WebEntry';
+import { registerStudioWorker } from './web-install';
 import './components/landing.css';
 const appearance = preferences.getItem('persona-appearance') || 'system';
 document.documentElement.dataset.appearance =
@@ -151,10 +152,8 @@ function App({ onShowLanding }: { onShowLanding: () => void }) {
     }
   }, [toast]);
   useEffect(() => {
-    if (!('serviceWorker' in navigator)) return;
-    void navigator.serviceWorker
-      .register('/sw.js')
-      .then((reg) => {
+    void registerStudioWorker()
+      ?.then((reg) => {
         if (reg.waiting) setSwUpdate(reg.waiting);
         reg.addEventListener('updatefound', () => {
           reg.installing?.addEventListener('statechange', () => {

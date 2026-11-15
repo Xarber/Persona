@@ -137,3 +137,28 @@ test('entry works when browser preference persistence is denied', async ({ page 
   await page.getByRole('link', { name: 'Open App', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Create a website', exact: true })).toBeVisible();
 });
+
+test('first-visit landing prepares offline support and offers the browser install prompt', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect
+    .poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller)))
+    .toBe(true);
+  const action = page.getByRole('button', { name: 'Install Web App' });
+  await page.evaluate(() => {
+    const event = new Event('beforeinstallprompt', { cancelable: true });
+    Object.assign(event, {
+      prompt: async () => {
+        document.documentElement.dataset.installPrompt = 'invoked';
+        return { outcome: 'dismissed' };
+      },
+    });
+    window.dispatchEvent(event);
+  });
+  await action.click();
+  await expect(page.locator('html')).toHaveAttribute('data-install-prompt', 'invoked');
+  await expect(action).toHaveCount(0);
+  await page.evaluate(() => window.dispatchEvent(new Event('appinstalled')));
+  await expect(page.getByRole('heading', { name: 'Install the web app' })).toHaveCount(0);
+});

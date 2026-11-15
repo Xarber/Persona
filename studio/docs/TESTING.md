@@ -21,3 +21,8 @@ For manual QA, test keyboard-only dialogs/navigation, pointer drag activation/ca
 `tests/e2e/presentation.spec.ts` covers prerendered public root markup, first entry and remembered return, responsive light/dark rendering, representative computed text contrast, reduced motion, offline imagery, named native dialogs with Escape/focus restoration, editor retention across logo and browser history, and storage-denied preference fallback. Existing workflow tests preselect the entered-app preference only in the top frame; sandbox frames stay opaque. A full reload test awaits the normal autosave; landing transitions keep pending edits mounted without waiting.
 
 These are installed desktop Chrome tests at desktop and mobile viewport sizes, not physical-device, Safari or native evidence. See [UADS 36 report](reports/UADS-36.md).
+
+The landing-page install regression checks that a fresh browser receives a controlling
+service worker before opening the editor. It dispatches the browser install events to
+verify button behavior and the installed-state UI. Installation through operating-system
+UI still requires a separate device check.

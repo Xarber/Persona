@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import {
   ArrowUpRight,
+  Download,
+  Github,
   Layers,
   MonitorSmartphone,
   PackageOpen,
@@ -27,7 +29,15 @@ const features = [
   },
 ];
 
-export function Landing({ onOpen }: { onOpen?: () => void }) {
+export function Landing({
+  onOpen,
+  onInstall,
+  installed = false,
+}: {
+  onOpen?: () => void;
+  onInstall?: () => void;
+  installed?: boolean;
+}) {
   return (
     <div className="landing-page">
       <a className="landing-skip" href="#main">
@@ -184,14 +194,21 @@ export function Landing({ onOpen }: { onOpen?: () => void }) {
             Open Persona <ArrowUpRight size={19} />
           </a>
           <div className="landing-guides">
-            <article>
-              <h3>Install the web app</h3>
-              <p>
-                Open the studio first. On iPhone or iPad, use Safari’s Share menu → Add to Home
-                Screen. In supported desktop and Android browsers, choose Install app from the
-                browser menu. HTTPS is required outside localhost.
-              </p>
-            </article>
+            {!installed && (
+              <article>
+                <h3>Install the web app</h3>
+                {onInstall ? (
+                  <button type="button" className="landing-button" onClick={onInstall}>
+                    <Download size={17} aria-hidden="true" /> Install Web App
+                  </button>
+                ) : (
+                  <p>
+                    On iPhone or iPad, use Safari’s Share menu → Add to Home Screen. On desktop or
+                    Android, look for an install option in your browser menu.
+                  </p>
+                )}
+              </article>
+            )}
             <article>
               <h3>Host your own studio</h3>
               <p>
@@ -228,7 +245,9 @@ export function Landing({ onOpen }: { onOpen?: () => void }) {
         </a>
         <nav aria-label="Resources">
           <a href="#privacy">Privacy</a>
-          <a href="https://github.com/Xarber/Persona/tree/testing/studio">Source & documentation</a>
+          <a href="https://github.com/Xarber/Persona">
+            <Github size={16} aria-hidden="true" /> GitHub
+          </a>
           <a href="/source.zip">AGPL-3.0 source archive</a>
           <a href="https://github.com/Xarber/Persona/blob/testing/studio/LICENSE">License</a>
         </nav>

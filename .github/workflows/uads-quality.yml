@@ -1,5 +1,7 @@
 name: UADS source quality
 on:
+  push:
+    branches: [testing]
   pull_request:
     branches: [testing, beta, main]
   workflow_dispatch:

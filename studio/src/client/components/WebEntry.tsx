@@ -2,6 +2,7 @@ import { preferences } from '../preferences';
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { Landing } from './Landing';
+import { useWebInstall } from '../web-install';
 
 const preference = 'persona-app-opened';
 type View = 'landing' | 'app';
@@ -20,6 +21,7 @@ function initialView(): View {
 
 /** Browser-only entry shell; never imported by the preserved native Expo application. */
 export function WebEntry({ children }: { children: (showLanding: () => void) => ReactNode }) {
+  const install = useWebInstall();
   const [view, setView] = useState<View>(initialView);
   const [opened, setOpened] = useState(view === 'app');
   const appURL = useRef(view === 'app' ? location.href : '/');
@@ -70,7 +72,7 @@ export function WebEntry({ children }: { children: (showLanding: () => void) => 
     <div ref={container}>
       {view === 'landing' && (
         <div className="web-entry-view" data-web-view="landing" tabIndex={-1}>
-          <Landing onOpen={openApp} />
+          <Landing onOpen={openApp} {...install} />
         </div>
       )}
       {opened && (
