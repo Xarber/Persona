@@ -1444,8 +1444,20 @@ small {
 .page-row.selected {
   background: var(--soft);
 }
-.page-settings-link {
-  margin: 20px 16px;
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+}
+.page-actions .icon-button {
+  min-width: 36px;
+  min-height: 36px;
+}
+.page-actions [role='status'] {
+  color: var(--muted);
+  font-size: 11px;
 }
 .canvas-area {
   flex: 1;

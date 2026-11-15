@@ -17,3 +17,11 @@ Limitations: direct text editing is plain text, not a rich-text toolbar; layout 
 ## Compact browser layout
 
 At viewport widths up to 650 px, the editor shows one of Canvas, Structure or Style at a time. Panel switching keeps the same document, selection and undo history. Fit chooses a zoom preset based on the canvas's available width. The phone layout uses the same renderer and persistence as desktop.
+
+## Page order
+
+In **Pages**, select a page and use the up or down arrow to change its position.
+The position is announced as the page moves. Navigation in the canvas, published
+sites and exports follows the order of visible pages. Reordering uses the normal
+undo, redo and autosave path. The page marked Home retains its root URL and opens
+first when reopening the editor, regardless of its position in the menu.

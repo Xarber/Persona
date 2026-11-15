@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowLeft,
+  ArrowUp,
+  ArrowDown,
   ChevronDown,
   Undo2,
   Redo2,
@@ -95,7 +97,9 @@ export function Editor({
     channel = useRef(id());
   const [doc, setDoc] = useState(initial.document),
     [selected, setSelected] = useState<string[]>([]),
-    [pageId, setPageId] = useState(initial.document.pages[0].id),
+    [pageId, setPageId] = useState(
+      (initial.document.pages.find((p) => p.slug === '') || initial.document.pages[0]).id,
+    ),
     [device, setDevice] = useState<Device>('desktop'),
     [zoom, setZoom] = useState(70),
     [leftTab, setLeftTab] = useState('layers'),
@@ -116,6 +120,7 @@ export function Editor({
   const saving = useRef<Promise<Website> | null>(null),
     conflictRef = useRef(false);
   const page = doc.pages.find((p) => p.id === pageId) || doc.pages[0];
+  const pageIndex = doc.pages.indexOf(page);
   const selectedNode = selected.length ? findNode(page.nodes, selected[0]) : undefined;
   function apply(next: SiteDocument) {
     try {
@@ -647,6 +652,7 @@ export function Editor({
                 <button
                   className={'page-row ' + (p.id === page.id ? 'selected' : '')}
                   key={p.id}
+                  aria-current={p.id === page.id ? 'true' : undefined}
                   onClick={() => {
                     setPageId(p.id);
                     setSelected([]);
@@ -657,13 +663,38 @@ export function Editor({
                   <small>{p.slug === '' ? 'Home' : '/' + p.slug}</small>
                 </button>
               ))}
-              <button
-                className="text-button page-settings-link"
-                onClick={() => setPageSettings(true)}
-              >
-                <Settings size={14} />
-                Page settings
-              </button>
+              <div className="page-actions" role="group" aria-label={`Actions for ${page.name}`}>
+                {[
+                  { offset: -1, label: 'Move page up', Icon: ArrowUp },
+                  { offset: 1, label: 'Move page down', Icon: ArrowDown },
+                ].map(({ offset, label, Icon }) => {
+                  const destination = pageIndex + offset;
+                  return (
+                    <button
+                      key={label}
+                      className="icon-button"
+                      aria-label={label}
+                      title={label}
+                      disabled={destination < 0 || destination >= doc.pages.length}
+                      onClick={() =>
+                        mutate((d) => {
+                          const [item] = d.pages.splice(pageIndex, 1);
+                          d.pages.splice(destination, 0, item);
+                        })
+                      }
+                    >
+                      <Icon size={16} aria-hidden="true" />
+                    </button>
+                  );
+                })}
+                <span role="status">
+                  Page {pageIndex + 1} of {doc.pages.length}
+                </span>
+                <button className="text-button" onClick={() => setPageSettings(true)}>
+                  <Settings size={14} />
+                  Page settings
+                </button>
+              </div>
             </>
           )}
           <div className="editor-left-bottom">

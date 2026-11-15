@@ -1,5 +1,5 @@
 {
-  "uadsVersion": "baseline-2026-11-15-sections-1-50",
+  "uadsVersion": "baseline-2026-11-15-sections-1-52",
   "manifestVersion": 1,
   "project": {
     "name": "Persona",
@@ -82,9 +82,10 @@
       "id": "UADS-UI-003",
       "applicability": "required",
       "state": "Pending",
-      "notes": "landing exists; programmable install and release discovery pending",
+      "notes": "landing and programmable PWA install implemented; physical installation and release discovery pending",
       "evidence": [
-        "docs/reports/compliance/2026-11-15.md"
+        "docs/reports/compliance/2026-11-15.md",
+        "docs/reports/compliance/landing-install.md"
       ]
     },
     {
@@ -181,9 +182,10 @@
       "id": "UADS-QA-003",
       "applicability": "required",
       "state": "Pending",
-      "notes": "structural validation is separate from implementation evidence",
+      "notes": "structural validation and ordered active queue; functional evidence recorded separately",
       "evidence": [
-        "docs/reports/compliance/2026-11-15.md"
+        "docs/reports/compliance/2026-11-15.md",
+        "docs/ACTIVE_TASKS.md"
       ]
     }
   ],

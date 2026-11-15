@@ -322,3 +322,32 @@ test('passkey registration and sign-in with a virtual authenticator', async ({ p
   await expect(page.locator('.header-status')).toContainText('Connected workspace');
   await cdp.detach();
 });
+
+test('page order updates navigation, supports undo and survives reopening', async ({ page }) => {
+  await page.goto('/');
+  await createLocal(page, 'Page order portfolio');
+  await page.getByRole('button', { name: 'Pages', exact: true }).click();
+  const add = page.getByRole('button', { name: 'Add page' });
+  for (const name of ['Work', 'About']) {
+    page.once('dialog', (dialog) => dialog.accept(name));
+    await add.click();
+  }
+  const links = page.frameLocator('[title="Portfolio canvas"]').locator('.desktop-nav [data-page]');
+  await expect(links).toHaveText(['Home', 'Work', 'About']);
+  const moveUp = page.getByRole('button', { name: 'Move page up' });
+  await moveUp.click();
+  await expect(links).toHaveText(['Home', 'About', 'Work']);
+  await moveUp.click();
+  await expect(links).toHaveText(['About', 'Home', 'Work']);
+  await expect(moveUp).toBeDisabled();
+  await page.getByRole('button', { name: 'Undo', exact: true }).click();
+  await expect(links).toHaveText(['Home', 'About', 'Work']);
+  await page.getByRole('button', { name: 'Redo', exact: true }).click();
+  await expect(links).toHaveText(['About', 'Home', 'Work']);
+  await saved(page);
+  await page.reload();
+  await expect(links).toHaveText(['About', 'Home', 'Work']);
+  await expect(
+    page.frameLocator('[title="Portfolio canvas"]').locator('.desktop-nav [aria-current=page]'),
+  ).toHaveText('Home');
+});
