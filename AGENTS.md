@@ -12,3 +12,5 @@ Use `testing` for integrated development. Do not migrate master or activate rele
 Apply the user's current UADS standards: integrated first-visit root landing, remembered app entry, state-preserving logo/history navigation, X-Center as default hosting target, accessible hierarchy and meaningful reduced-motion-aware interactions. Hardware signing may fall back to unsigned development commits when the configured hardware key is unavailable; never re-sign existing history automatically. Public X-Center hosting is authorized for Persona. See studio/docs/XCENTER.md for the appliance profile and rollback.
 
 Before substantial work, read the root UADS manifest and the requirement registry in docs/UADS_REQUIREMENTS.md. Run scripts/validate-uads.py with jsonschema 4.25.1. The optional --bundle check uses a completed studio build. Record actual evidence and unresolved checks in docs/reports/compliance.
+
+On resuming substantial work, read docs/ACTIVE_TASKS.md and reconcile it with the user’s latest requests. Append new work in request order and keep unfinished or blocked tasks, verification evidence, and next actions current.

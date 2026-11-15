@@ -8,3 +8,5 @@ Scope covers the web install affordance (§39), service-worker entry (§32), tas
 - The production dependency audit reported zero known vulnerabilities. Changed-line and changed-branch coverage were not measured.
 - Persona is public at Xarber/Persona. There were no GitHub Releases at inspection. No native Studio binaries were built.
 - X-Center HTTPS and management SSH were unreachable from the workspace. The prior deployment receipt is in the [appliance guide](../../../studio/docs/XCENTER.md). No new rollout was attempted.
+- GitHub Actions [run 43732685642](https://github.com/Xarber/Persona/actions/runs/43732685642) passed the source-quality gate for `bad81fc`.
+- The WebKit suite could not start because the installed Playwright version requires WebKit revision 2388, which is absent locally. The tests did not reach the application.
