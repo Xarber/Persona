@@ -11,6 +11,8 @@ Scope comes from the original Studio brief, the subsequent request to verify bro
 | PERSONA-005 | 5 · normal | Bring first-visit installation, onboarding and capture tooling up to current UADS | In Progress. Root landing and remembered entry exist. Landing install action is implemented. First-run onboarding, isolated screenshot fixtures and reproducible captures remain to be implemented. Native release downloads depend on a native Studio target and published artifacts. |
 | PERSONA-006 | 6 · normal | Complete developer tooling, changelog and release verification | Queued. Device-local Ideas require an authorized export. The repository Ideas collection is empty. The hosted profile intentionally hides developer controls per the production request. Review developer server switching in the self-hosted profile and release metadata against the [roadmap](../studio/docs/ROADMAP.md). |
 
+| PERSONA-007 | 7 · normal | Integrate X-Center ID for settings sync, portfolio sync, service data, and saving exports to the account’s global files | Queued. Next, trace the existing account, settings, portfolio, service storage, and export flows, then check Persona’s registration, callback ownership, and capabilities with the X-Center ID integration skill. Define account linking, conflict handling and the scope of each data flow. Private sync requires user consent, service storage requires app verification, and saving to global files requires the applicable user grant. Verify local editing and ordinary downloads alongside the connected flows before enabling them in production. |
+
 X-Center revalidation can resume when it is reachable. Browser changes can be built and verified locally while it is unavailable.
 
 ## Usage checkpoint — 26 November 2026
