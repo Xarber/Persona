@@ -12,3 +12,12 @@ Scope comes from the original Studio brief, the subsequent request to verify bro
 | PERSONA-006 | 6 · normal | Complete developer tooling, changelog and release verification | Queued. Device-local Ideas require an authorized export. The repository Ideas collection is empty. The hosted profile intentionally hides developer controls per the production request. Review developer server switching in the self-hosted profile and release metadata against the [roadmap](../studio/docs/ROADMAP.md). |
 
 X-Center revalidation can resume when it is reachable. Browser changes can be built and verified locally while it is unavailable.
+
+## Usage checkpoint — 26 November 2026
+
+UADS §0 paused new work at 05:39 CET. The five-hour window had 0% remaining and resets on 26 November at 09:58 CET. The weekly window had 41% remaining with no reset credits, below the 55% minimum for the time remaining. Its scheduled reset is 2 December at 15:33 CET. Recheck both windows before resuming.
+
+- The source branch was synchronized at `6ec7df3`. Four browser-report PNGs were already modified in the working tree. Review their provenance before including them in any commit.
+- PERSONA-001 resumes with a focused mobile page-navigation regression on the existing build, then the separate navigation label. The desktop page-order regression passed. The interrupted broader browser run lacks a confirmed final result.
+- PERSONA-003 has an existing candidate image for `6ec7df3`. The prior staging probe received a connection reset before health could be confirmed. Check the live deployment and reuse the existing image for an isolated staging retry with readiness polling and container logs. Assess §§8, 24 and 43 before any new build or promotion.
+- Preserve PERSONA-002 and PERSONA-004 through PERSONA-006. Apply the revised onboarding, screenshot provenance, and changelog requirements in §§16–17, 37, 40 and 44 to the relevant queue items when work resumes.
