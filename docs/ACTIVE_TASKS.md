@@ -36,3 +36,20 @@ verification and a service database key are still unverified. The prior candidat
 image predates the integration and cannot validate the new callback.
 Under UADS §8, finish independent preparation and source work before building
 a new hosted candidate. See [integration details](../studio/docs/features/XCENTER_ID.md).
+
+## Usage checkpoint — 27 November 2026
+
+UADS §0 paused new work at 13:28 CET. The five-hour window had 7% remaining
+and resets on 27 November at 18:16 CET. The weekly window had 43% remaining,
+with zero reset credits, and resets on 3 December at 12:07 CET. Recheck both
+windows before starting new work.
+
+- PERSONA-007 source validation passed. The new callback and protected
+  appliance configuration are ready for staging. Production still returns 404
+  on this route. Live consent, token exchange, synchronized storage, global
+  Files, and the administrator-verified service database key remain open.
+- Resume by checking the latest source CI run and exercising the custom
+  navigation label in the mobile Studio browser editor. Continue independent
+  work in queue order before staging the hosted candidate under §8. Then test
+  the exact public callback and account flows using isolated test data.
+- The four pre-existing screenshot changes remain outside the commits.
