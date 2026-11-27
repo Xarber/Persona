@@ -49,3 +49,18 @@ Build the candidate from an archived commit under `/srv/xcenter/apps/persona/rel
 - Local type check, 39 Vitest tests and 10 Chrome tests passed. The hosted profile also passed a separate Settings smoke test.
 - The initial build stalled with the system disk full. The retry succeeded after space became available. The appliance reported only 46 MiB available on its root filesystem immediately after startup. Free capacity before another build. No unrelated Docker images, volumes or service data were removed.
 - Native Expo output remains a starter, so no Persona IPA/APK workflow or artifact applies. Physical devices, full PWA upgrade, backup restoration and custom-domain routing are outside this verification.
+
+## X-Center ID deployment preparation
+
+The Persona registration accepted the exact HTTPS return path
+`https://persona.xcenter.it/api/account/callback` on 27 November 2026.
+The appliance has a root-only configuration at
+`/srv/xcenter/secrets/persona-xcenter-id.env`. Load it with the deployment's
+usual environment when selecting a validated candidate. Use
+`docker compose config --quiet` for configuration validation to keep secrets
+out of logs. Install the Persona-only callback location from
+`infra/xcenter-nginx.conf` after checking the current appliance configuration
+and validating the candidate. The previous public build still returns 404 for
+this route. The authorization probe established only that the issuer accepts
+the callback URL. See [the feature guide](features/XCENTER_ID.md) for the
+consent and service database verification still needed.
