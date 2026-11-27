@@ -75,22 +75,17 @@ export function renderPage(input: SiteDocument, options: RenderOptions = {}): st
         return `<h2 ${attrs}>${editable(p.text)}</h2>`;
       case 'paragraph':
         return `<p ${attrs}>${editable(p.text)}</p>`;
-      case 'navigation':
-        return `<header ${attrs}><a class="site-wordmark" data-page="" href="${e(href(''))}">${editable(p.text)}</a><details class="mobile-nav"><summary>Menu</summary><nav>${doc.pages
-          .filter((p) => p.visible)
-          .map(
-            (p) =>
-              `<a data-page="${e(p.slug)}" href="${e(href(p.slug))}" ${p.id === page.id ? 'aria-current="page"' : ''}>${e(p.name)}</a>`,
-          )
-          .join('')}</nav></details><nav class="desktop-nav">${doc.pages
-          .filter((p) => p.visible)
-          .map(
-            (p) =>
-              `<a data-page="${e(p.slug)}" href="${e(href(p.slug))}" ${p.id === page.id ? 'aria-current="page"' : ''}>${e(p.name)}</a>`,
-          )
-          .join(
-            '',
-          )}<a href="#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header>`;
+      case 'navigation': {
+        const links = doc.pages
+          .filter((entry) => entry.visible)
+          .map((entry) => {
+            const current = entry.id === page.id ? ' aria-current="page"' : '';
+            const label = entry.navigationLabel?.trim() || entry.name;
+            return `<a data-page="${e(entry.slug)}" href="${e(href(entry.slug))}"${current}>${e(label)}</a>`;
+          })
+          .join('');
+        return `<header ${attrs}><a class="site-wordmark" data-page="" href="${e(href(''))}">${editable(p.text)}</a><details class="mobile-nav"><summary>Menu</summary><nav>${links}</nav></details><nav class="desktop-nav">${links}<a href="#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav></header>`;
+      }
       case 'hero':
         return `<section ${attrs}><div class="eyebrow">${editable(p.eyebrow, 'eyebrow')}</div><h1>${editable(p.text)}</h1><p class="hero-subtitle">${editable(p.subtitle, 'subtitle')}</p>${kids}<a class="text-link" href="#work">Explore my work <span aria-hidden="true">↘</span></a><span class="hero-mark" aria-hidden="true">✳</span></section>`;
       case 'container':

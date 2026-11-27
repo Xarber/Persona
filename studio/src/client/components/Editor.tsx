@@ -934,6 +934,21 @@ export function Editor({
                 }
               />
             </label>
+            <label>
+              Navigation label
+              <input
+                value={page.navigationLabel ?? ''}
+                placeholder="Use page name"
+                maxLength={100}
+                onChange={(event) =>
+                  mutate((document) => {
+                    const target = document.pages.find((item) => item.id === page.id)!;
+                    if (event.target.value) target.navigationLabel = event.target.value;
+                    else delete target.navigationLabel;
+                  })
+                }
+              />
+            </label>
             {page.slug !== '' && (
               <label>
                 Page slug

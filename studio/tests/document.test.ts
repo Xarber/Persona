@@ -26,6 +26,18 @@ describe('document model and renderer', () => {
       b = createDocument();
     expect(a.pages[0].id).not.toBe(b.pages[0].id);
   });
+  it('uses the custom navigation label in both menus and falls back to the page name', () => {
+    const doc = createDocument('minimal');
+    const page = doc.pages[0];
+    page.navigationLabel = 'Work & notes';
+    const renderLinks = () => renderPage(doc).match(/<a data-page=""[^>]*>[^<]*<\/a>/g);
+    const links = renderLinks();
+    expect(links).toHaveLength(2);
+    expect(links?.every((link) => link.includes('Work &amp; notes'))).toBe(true);
+    expect(renderPage(doc)).toContain('<title>Home');
+    page.navigationLabel = ' ';
+    expect(renderLinks()?.every((link) => link.includes('>Home</a>'))).toBe(true);
+  });
   it('rejects unsupported schemas, unknown props, malicious URLs and duplicate IDs', () => {
     const doc = createDocument();
     expect(() => parseDocument({ ...doc, schemaVersion: 2 })).toThrow();

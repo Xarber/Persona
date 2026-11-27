@@ -13,7 +13,7 @@ The core vertical workflow is implemented; the complete original specification i
 ## Requested authoring and developer features still incomplete
 
 - Rich text, direct canvas insertion/reparenting feedback, more advanced components and interactions, richer custom responsive rules and safe scoped CSS.
-- Add separate navigation labels and placement, dedicated content schemas, template package catalog and template previews beyond creation thumbnails.
+- Add separate navigation placement, dedicated content schemas, template package catalog and template previews beyond creation thumbnails.
 - Asset folders/replacement/cropping, responsive source sets, custom-font validation and optional S3 storage adapter.
 - Primary-domain selection/redirects, richer SEO structured data, analytics UI and optional SMTP contact delivery.
 - Stronger offline connected-workspace media caching and explicit conflict-resolution UI; local Ideas capture and queued connected sync are implemented.

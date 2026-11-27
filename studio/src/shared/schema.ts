@@ -157,6 +157,7 @@ export const documentSchema = z
           .object({
             id: z.string().uuid(),
             name: z.string().min(1).max(100),
+            navigationLabel: z.string().max(100).optional(),
             slug: z
               .string()
               .regex(/^[a-z0-9-]*$/)

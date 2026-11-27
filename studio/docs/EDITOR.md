@@ -25,3 +25,13 @@ The position is announced as the page moves. Navigation in the canvas, published
 sites and exports follows the order of visible pages. Reordering uses the normal
 undo, redo and autosave path. The page marked Home retains its root URL and opens
 first when reopening the editor, regardless of its position in the menu.
+
+In **Page settings**, use **Navigation label** to shorten or rename the link in
+the portfolio's desktop and mobile menus. An empty label uses the page name.
+The page title and route keep their existing values.
+
+A saved custom label adds an optional field to the document. An older release
+with a strict schema will reject that field. Include this in the rollout review
+and retain the pre-upgrade snapshot. If rollback is required after users have
+saved labels, preserve the newer drafts before converting copies for use by
+the older release.
