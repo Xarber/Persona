@@ -19,3 +19,7 @@ source revision is the commit that introduces this report.
   hosted validation and promotion. The Developer Portal required sign-in.
   Real user consent, OAuth exchange, data writes, service-key provisioning and
   physical authentication devices remain unverified.
+- The [GitHub source-quality run](https://github.com/Xarber/Persona/actions/runs/45998520785)
+  passed for `728deae`. The appliance configuration was prepared with
+  the original OAuth credential. The production service still requires the
+  candidate, updated proxy configuration, and live account verification.
