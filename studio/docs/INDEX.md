@@ -20,6 +20,7 @@ Start with [architecture](ARCHITECTURE.md), [feature status](FEATURES.md), [deve
 | Tests and environment distinctions | [Testing](TESTING.md) |
 | Branches, builds and authorization | [Releases](RELEASES.md) |
 | Threat model | [Security](SECURITY.md) |
+| Managed account linking, sync, and export storage | [X-Center ID](features/XCENTER_ID.md) |
 | Retention and ownership | [Privacy](PRIVACY.md) |
 | Portable transfer and offline behavior | [Synchronization](SYNC.md) |
 | Extension boundaries | [Plugin system](PLUGIN_SYSTEM.md) |

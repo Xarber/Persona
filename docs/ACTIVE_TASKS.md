@@ -11,7 +11,7 @@ Scope comes from the original Studio brief, the subsequent request to verify bro
 | PERSONA-005 | 5 · normal | Bring first-visit installation, onboarding and capture tooling up to current UADS | In Progress. Root landing and remembered entry exist. Landing install action is implemented. First-run onboarding, isolated screenshot fixtures and reproducible captures remain to be implemented. Native release downloads depend on a native Studio target and published artifacts. |
 | PERSONA-006 | 6 · normal | Complete developer tooling, changelog and release verification | Queued. Device-local Ideas require an authorized export. The repository Ideas collection is empty. The hosted profile intentionally hides developer controls per the production request. Review developer server switching in the self-hosted profile and release metadata against the [roadmap](../studio/docs/ROADMAP.md). |
 
-| PERSONA-007 | 7 · normal | Integrate X-Center ID for settings sync, portfolio sync, service data, and saving exports to the account’s global files | Queued. Next, trace the existing account, settings, portfolio, service storage, and export flows, then check Persona’s registration, callback ownership, and capabilities with the X-Center ID integration skill. Define account linking, conflict handling and the scope of each data flow. Private sync requires user consent, service storage requires app verification, and saving to global files requires the applicable user grant. Verify local editing and ordinary downloads alongside the connected flows before enabling them in production. |
+| PERSONA-007 | 7 · normal. Advanced at the user's request | Integrate X-Center ID for settings sync, portfolio sync, service data, and saving exports to global files. Implement the backend at the registered callback. | Implemented for source validation. The managed SDK creates the OIDC flow and the issuer accepted the exact HTTPS callback path. Settings and portfolio copies require `app_data`, global exports require `files_write`, and private deployment records require an administrator-verified database key. The next hosted step is to stage the gated configuration at the exact callback and test real consent, token exchange, and storage with an isolated account. Session renewal, service-key verification, and media restore across separate Studio instances remain open. |
 
 X-Center revalidation can resume when it is reachable. Browser changes can be built and verified locally while it is unavailable.
 
@@ -23,3 +23,16 @@ UADS §0 paused new work at 05:39 CET. The five-hour window had 0% remaining and
 - PERSONA-001 resumes with a focused mobile page-navigation regression on the existing build, then the separate navigation label. The desktop page-order regression passed. The interrupted broader browser run lacks a confirmed final result.
 - PERSONA-003 has an existing candidate image for `6ec7df3`. The prior staging probe received a connection reset before health could be confirmed. Check the live deployment and reuse the existing image for an isolated staging retry with readiness polling and container logs. Assess §§8, 24 and 43 before any new build or promotion.
 - Preserve PERSONA-002 and PERSONA-004 through PERSONA-006. Apply the revised onboarding, screenshot provenance, and changelog requirements in §§16–17, 37, 40 and 44 to the relevant queue items when work resumes.
+
+
+## X-Center ID continuation — 27 November 2026
+
+The user prioritized PERSONA-007 and supplied the callback pattern
+`<service>.xcenter.it/api/account/callback`. Persona mounts the corresponding
+backend route at `https://persona.xcenter.it/api/account/callback`.
+The issuer returned 303 into its authorization flow for that exact URL.
+The developer portal required a signed-in browser session. Administrator
+verification and a service database key are still unverified. The prior candidate
+image predates the integration and cannot validate the new callback.
+Under UADS §8, finish independent preparation and source work before building
+a new hosted candidate. See [integration details](../studio/docs/features/XCENTER_ID.md).

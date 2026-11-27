@@ -29,3 +29,22 @@ Rate limits are process-local; a multi-replica deployment needs shared abuse con
 ## Development-server files
 
 The Vite configuration preserves its sensitive-file deny defaults and adds both the private runtime directory and the .data namespace. It excludes runtime/build/test artifacts from watching so publishing does not reset an active editing session. A real middleware test checks ordinary and /@fs requests return 403 while a public icon still loads. Follow [Vite filesystem restrictions](https://vite.dev/config/server-options#server-fs-deny); never place DATA_DIR inside the public asset directory, which Vite intentionally serves without this filter. Production serves only the built distribution directory.
+
+## X-Center ID trust boundary
+
+The protected assets are existing Persona workspaces, provider grants, account
+preferences, and private portfolio and export copies. A linked provider identity
+must match its validated issuer and subject. Browser cross-site requests,
+replayed callbacks and email collisions cannot authorize account linking.
+Provider responses, including saved documents, remain untrusted and are
+validated before restore. Concurrent replacements use provider revision checks.
+The authenticated Persona workspace controls which portfolios and media a user
+can export. Verified service storage uses a separate backend-only key.
+
+OAuth transactions expire after ten minutes. The callback consumes the browser’s
+transaction once, and link completion requires the initiating session.
+AES-256-GCM binds short-lived saved access tokens to the Persona owner ID.
+Revocation and consent are enforced by X-Center ID. The Persona proxy suppresses
+callback access logging. Deployment validation must check that any other proxy
+also omits callback query strings. See [the integration guide](features/XCENTER_ID.md)
+for the live verification and migration gaps.

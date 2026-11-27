@@ -96,6 +96,8 @@ export const migrations = [
   `CREATE TABLE IF NOT EXISTS auth_tokens (id TEXT PRIMARY KEY,user_id TEXT NOT NULL,purpose TEXT NOT NULL,payload TEXT NOT NULL,expires_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS passkeys (id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,name TEXT NOT NULL,public_key TEXT NOT NULL,counter INTEGER NOT NULL,created_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS audit (id TEXT PRIMARY KEY,user_id TEXT,action TEXT NOT NULL,resource TEXT NOT NULL,created_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS xcenter_flows (id TEXT PRIMARY KEY,payload TEXT NOT NULL,expires_at TEXT NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS xcenter_links (user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,issuer TEXT NOT NULL,subject TEXT NOT NULL,display_name TEXT NOT NULL,grant TEXT NOT NULL,UNIQUE(issuer,subject))`,
 ];
 export async function migrate() {
   for (const sql of migrations) await run(sql);

@@ -184,6 +184,18 @@ function App({ onShowLanding }: { onShowLanding: () => void }) {
     window.addEventListener('hashchange', load);
     return () => window.removeEventListener('hashchange', load);
   }, [workspace, loaded]);
+  useEffect(() => {
+    const url = new URL(location.href);
+    const result = url.searchParams.get('xcenter');
+    if (!result) return;
+    url.searchParams.delete('xcenter');
+    history.replaceState(history.state, '', url);
+    notify(
+      result === 'connected'
+        ? 'X-Center ID connected.'
+        : 'X-Center ID could not finish connecting.',
+    );
+  }, []);
   async function exportSite(site: Website, project = false) {
     try {
       if (user) location.href = `/api/websites/${site.id}/export/${project ? 'project' : 'static'}`;
@@ -782,6 +794,19 @@ function AuthModal({
     [password, setPassword] = useState(''),
     [error, setError] = useState(''),
     [busy, setBusy] = useState(false);
+  const [xcenter, setXCenter] = useState(false);
+  useEffect(() => {
+    if (user) return;
+    let active = true;
+    void api<{ enabled: boolean }>('/xcenter/config')
+      .then(({ enabled }) => {
+        if (active) setXCenter(enabled);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [user]);
   return (
     <Modal
       title={
@@ -867,6 +892,25 @@ function AuthModal({
               }}
             >
               Sign in with a passkey
+            </button>
+          )}
+          {!register && xcenter && (
+            <button
+              className="secondary"
+              type="button"
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true);
+                try {
+                  const { url } = await api<{ url: string }>('/xcenter/sign-in', 'POST');
+                  location.assign(url);
+                } catch (error) {
+                  setError((error as Error).message);
+                  setBusy(false);
+                }
+              }}
+            >
+              Sign in with X-Center ID
             </button>
           )}
           <button className="primary" disabled={busy}>

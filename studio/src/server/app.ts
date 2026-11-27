@@ -15,6 +15,8 @@ import JSZip from 'jszip';
 import { query, run, transaction } from './db';
 import { checkUpdates } from './updates';
 import { installAuthExtras } from './auth-extras';
+import { installXCenter } from './xcenter';
+import { XCenterError } from '@xcenter-id/client';
 import { auth, hashPassword, verifyPassword, newSession, type AuthRequest } from './auth';
 import {
   AssetAccessError,
@@ -77,6 +79,30 @@ export async function ownSite(userId: string, siteId: string) {
   ]);
   if (!row) throw new ApiError(404, 'Website not found.');
   return row;
+}
+export async function projectArchive(site: SiteRow, userId: string) {
+  const zip = new JSZip(),
+    doc = parseDocument(JSON.parse(site.document)),
+    assets = await ownerAssets(doc, userId);
+  const manifest = [];
+  for (const a of assets) {
+    const bytes = await readFile(path.join(uploads, a.filename));
+    zip.file(`assets/${a.id}`, bytes);
+    manifest.push({
+      id: a.id,
+      mime: a.mime,
+      sha256: createHash('sha256').update(bytes).digest('hex'),
+    });
+  }
+  zip.file(
+    'persona.json',
+    JSON.stringify(
+      { format: 'persona-project', schemaVersion: 1, document: doc, assets: manifest },
+      null,
+      2,
+    ),
+  );
+  return zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
 }
 const endpoint =
   (fn: (req: AuthRequest, res: express.Response) => Promise<unknown>) =>
@@ -203,6 +229,7 @@ export function createApp() {
     }),
   );
   installAuthExtras(app);
+  installXCenter(app, projectArchive);
   app.get(
     '/api/auth/me',
     auth,
@@ -497,31 +524,10 @@ export function createApp() {
     auth,
     endpoint(async (req, res) => {
       const site = await ownSite(req.userId!, String(req.params.id));
-      const zip = new JSZip(),
-        doc = parseDocument(JSON.parse(site.document)),
-        assets = await ownerAssets(doc, req.userId!);
-      const manifest = [];
-      for (const a of assets) {
-        const bytes = await readFile(path.join(uploads, a.filename));
-        zip.file(`assets/${a.id}`, bytes);
-        manifest.push({
-          id: a.id,
-          mime: a.mime,
-          sha256: createHash('sha256').update(bytes).digest('hex'),
-        });
-      }
-      zip.file(
-        'persona.json',
-        JSON.stringify(
-          { format: 'persona-project', schemaVersion: 1, document: doc, assets: manifest },
-          null,
-          2,
-        ),
-      );
       res
         .type('application/zip')
         .attachment('persona-project.zip')
-        .send(await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' }));
+        .send(await projectArchive(site, req.userId!));
     }),
   );
   app.post(
@@ -1032,6 +1038,16 @@ export function createApp() {
   app.use('/api', (_req, res) => res.status(404).json({ error: 'API endpoint not found.' }));
   app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (res.headersSent) return next(err);
+    if (err instanceof XCenterError) {
+      const status = [401, 403, 404, 409, 413, 429, 507].includes(err.status) ? err.status : 502;
+      res.status(status).json({
+        error:
+          status === 409
+            ? 'The X-Center copy changed. Reload it before saving again.'
+            : 'X-Center ID could not complete the request. Check consent, storage, and connection.',
+      });
+      return;
+    }
     const status =
       err instanceof ZodError || err instanceof AssetAccessError
         ? 400

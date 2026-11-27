@@ -33,14 +33,20 @@ export async function auth(req: AuthRequest, res: Response, next: NextFunction) 
   req.sessionId = rows[0].id;
   next();
 }
-export async function newSession(userId: string, req: Request, res: Response) {
+export async function newSession(
+  userId: string,
+  req: Request,
+  res: Response,
+  maxAge = 30 * 86400000,
+) {
+  if (maxAge <= 0) throw new Error('Authentication expired.');
   const token = randomBytes(32).toString('hex');
   const now = Date.now();
   await run('INSERT INTO sessions(id,user_id,created_at,expires_at,label) VALUES(?,?,?,?,?)', [
     tokenHash(token),
     userId,
     new Date(now).toISOString(),
-    new Date(now + 30 * 86400000).toISOString(),
+    new Date(now + maxAge).toISOString(),
     (req.headers['user-agent'] || 'Browser').slice(0, 200),
   ]);
   res.cookie('persona_session', token, {
@@ -48,6 +54,6 @@ export async function newSession(userId: string, req: Request, res: Response) {
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    maxAge: 30 * 86400000,
+    maxAge,
   });
 }

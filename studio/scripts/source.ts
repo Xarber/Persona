@@ -9,7 +9,8 @@ async function add(directory: string) {
     else if (!entry.isSymbolicLink()) zip.file(name, await readFile(name));
   }
 }
-for (const dir of ['src', 'scripts', 'public', 'infra', '.github', 'docs', 'tests']) await add(dir);
+for (const dir of ['src', 'scripts', 'public', 'infra', '.github', 'docs', 'tests', 'vendor'])
+  await add(dir);
 for (const file of [
   'package.json',
   'package-lock.json',

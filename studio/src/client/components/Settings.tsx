@@ -1,3 +1,4 @@
+import { XCenterAccount } from './XCenterAccount';
 import { preferences } from '../preferences';
 // Copyright (c) 2026 Persona contributors
 // SPDX-License-Identifier: AGPL-3.0-only
@@ -161,6 +162,7 @@ export function SettingsPage({
           {tab === 'general' ? (
             <>
               <h2>A workspace of your own.</h2>
+              {workspace.user && <XCenterAccount key={workspace.user.id} workspace={workspace} />}
               <p className="muted">
                 <a href="/source.zip" download>
                   Download this build’s Corresponding Source (AGPL-3.0-only)
